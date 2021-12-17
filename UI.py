@@ -145,7 +145,8 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_info_head.setIcon(QtGui.QIcon('./head.jpg'))
         self.right_info_head.setIconSize(QtCore.QSize(30, 30))
 
-        self.display_name = QtWidgets.QPushButton("Yiu")
+        self.display_name = QtWidgets.QLabel("Yiu")
+        self.display_name.setAlignment(QtCore.Qt.AlignCenter)
 
         self.color_setting = QtWidgets.QPushButton(qtawesome.icon('ri.user-settings-fill', color='black'), "")
         self.color_setting.setIconSize(QtCore.QSize(30, 30))
@@ -280,7 +281,7 @@ class MainUi(QtWidgets.QMainWindow):
                 border-radius: 10px;
             }
             QPushButton:pressed{
-                border:2px solid red;
+                background: gray;
             }
             QToolButton{
                 border:1px solid gray;

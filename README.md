@@ -9,3 +9,17 @@
 ![image.png](./assets/1639662560341-image.png)
 
 ![image.png](./assets/1639662580337-image.png)
+
+### 12/17
+
+今日把所有界面都完成，并且美化了（大概），看下效果：
+
+![image.png](./assets/1639723360786-image.png)
+
+![image.png](./assets/1639723379807-image.png)
+
+![image.png](./assets/1639723393960-image.png)
+
+![image.png](./assets/1639723411769-image.png)
+
+![image.png](./assets/1639723421412-image.png)
