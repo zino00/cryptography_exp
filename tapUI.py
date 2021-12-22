@@ -245,38 +245,59 @@ class TabDemo(QTabWidget):
 
         main_layout.addWidget(algrithm_widget)
 
-        passwd_1 = QtWidgets.QPushButton(qtawesome.icon('ei.twitter', color='black'), "明文")
-        passwd_2 = QtWidgets.QPushButton(qtawesome.icon('fa.android', color='black'), "密文")
-        passwd_3 = QtWidgets.QPushButton(qtawesome.icon('fa.apple', color='black'), "密钥配置")
+        self.passwd_1 = QtWidgets.QPushButton(qtawesome.icon('ei.twitter', color='black'), "明文")
+        self.passwd_2 = QtWidgets.QPushButton(qtawesome.icon('fa.android', color='black'), "密文")
+        self.passwd_3 = QtWidgets.QPushButton(qtawesome.icon('fa.apple', color='black'), "密钥配置")
+        self.passwd_1.setObjectName("label")
+        self.passwd_2.setObjectName("label")
+        self.passwd_3.setObjectName("label")
+
+        self.clear_1 = QtWidgets.QPushButton("清除")
+        self.clear_2 = QtWidgets.QPushButton("清除")
+        self.clear_3 = QtWidgets.QPushButton("清除")
+        self.clear_1.setObjectName("remove")
+        self.clear_2.setObjectName("remove")
+        self.clear_3.setObjectName("remove")
+        self.clear_1.setFixedSize(80, 40)
+        self.clear_2.setFixedSize(80, 40)
+        self.clear_3.setFixedSize(80, 40)
+
         self.passwd_text_1 = QtWidgets.QTextEdit()
         self.passwd_text_2 = QtWidgets.QTextEdit()
         self.passwd_text_3 = QtWidgets.QTextEdit()
-        passwd_1.setIconSize(QtCore.QSize(20, 20))
-        passwd_2.setIconSize(QtCore.QSize(20, 20))
-        passwd_3.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_1.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_2.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_3.setIconSize(QtCore.QSize(20, 20))
 
         passwd_widget = QtWidgets.QWidget()
         passwd_layout = QtWidgets.QGridLayout()
         passwd_widget.setLayout(passwd_layout)
 
-        passwd_layout.addWidget(passwd_1, 0, 0, 1, 1)
-        passwd_layout.addWidget(passwd_2, 0, 1, 1, 1)
-        passwd_layout.addWidget(passwd_3, 0, 2, 1, 1)
-        passwd_layout.addWidget(self.passwd_text_1, 1, 0, 3, 1)
-        passwd_layout.addWidget(self.passwd_text_2, 1, 1, 3, 1)
-        passwd_layout.addWidget(self.passwd_text_3, 1, 2, 3, 1)
+        passwd_layout.addWidget(self.passwd_1, 0, 0, 1, 1)
+        passwd_layout.addWidget(self.clear_1, 0, 1, 1, 1)
+        passwd_layout.addWidget(self.passwd_2, 0, 2, 1, 1)
+        passwd_layout.addWidget(self.clear_2, 0, 3, 1, 1)
+        passwd_layout.addWidget(self.passwd_3, 0, 4, 1, 1)
+        passwd_layout.addWidget(self.clear_3, 0, 5, 1, 1)
+        passwd_layout.addWidget(self.passwd_text_1, 1, 0, 3, 2)
+        passwd_layout.addWidget(self.passwd_text_2, 1, 2, 3, 2)
+        passwd_layout.addWidget(self.passwd_text_3, 1, 4, 3, 2)
 
-        passwd_1.setFixedSize(120, 30)
-        passwd_2.setFixedSize(120, 30)
-        passwd_3.setFixedSize(120, 30)
+        self.passwd_1.setFixedSize(120, 30)
+        self.passwd_2.setFixedSize(120, 30)
+        self.passwd_3.setFixedSize(120, 30)
         passwd_widget.setStyleSheet(
             """
-            QPushButton{
+            QPushButton#label{
                 border:none;
                 color: black;
                 border-left:4px solid black;
                 text-align: left;
             }
+            QPushButton#remove{border:none;
+            background:black;
+            color:white;}
+            QPushButton#remove:pressed{font-weight:bold;}
             """
         )
 

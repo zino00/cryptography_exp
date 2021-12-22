@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/12/11 19:46
 # @Author  : Yiu
-# @Site    : 
+# @Site    :
 # @File    : UI.py
 # @Software: PyCharm
 """
@@ -33,6 +33,7 @@ import qtawesome
 from tapUI import TabDemo
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QCoreApplication
+
 
 class MainUi(QtWidgets.QMainWindow):
     def __init__(self):
@@ -199,7 +200,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
-        self.setFixedSize(1097, 800)
+        self.setFixedSize(1100, 800)
 
         self.init_left()
         self.init_right()
@@ -211,6 +212,8 @@ class MainUi(QtWidgets.QMainWindow):
 
         self.decorate()
         self.left_visit.clicked.connect(self.click_even)
+
+        self.setWindowIcon(QtGui.QIcon(qtawesome.icon('mdi.steam', color='white')))
 
     def decorate(self):
         self.left_close.setFixedSize(15, 15)
@@ -336,6 +339,10 @@ class MainUi(QtWidgets.QMainWindow):
         self.tab.tap4_bottom_buttom_2.clicked.connect(self.click_Send_msg)
         # 清空
         self.tab.tap2_bottom_pushbutton_3.clicked.connect(self.click_Plain_clear)
+        # 加密
+        self.tab.tap2_bottom_pushbutton_1.clicked.connect(self.click_Encrypt)
+        # 解密
+        self.tab.tap2_bottom_pushbutton_2.clicked.connect(self.click_Decrypt)
 
     def click_On_net(self):
         raise NotImplementedError
@@ -380,3 +387,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
