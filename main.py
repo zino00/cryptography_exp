@@ -1,4 +1,4 @@
-import base64 #cs
+import base64
 import threading
 
 from PyQt5 import QtWidgets
@@ -10,12 +10,14 @@ import binascii
 import crypto
 import _dh
 import datetime
+import UI
+import tapUI
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
 
 
-class udp_logic(jiemian.Ui_MainWindow):
+class udp_logic(UI.MainUi):
     def __init__(self):
         # 调用父类的init函数
         super(udp_logic, self).__init__()
@@ -35,9 +37,11 @@ class udp_logic(jiemian.Ui_MainWindow):
     # 实现连接网络的控件，生产子线程监听端口
     def click_On_net(self):
         # 作为发送方（客户端）的网络设置
+        #self.left_info_head.append('ssjk')
+        #self.send_Show_msg('jk')
         self.udp_clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            self.sendaddress = (str(self.Recv_ip.text()), int(self.Recv_port.text()))
+            self.sendaddress = (str(self.tap1_read_line.text()), int(self.tap1_read_line_1.text()))
         except Exception as e:
             msg = '发送端设置异常,请检查目标IP，目标端口\n'
             self.send_Show_msg(msg)
@@ -48,7 +52,7 @@ class udp_logic(jiemian.Ui_MainWindow):
         # 作为接收方(服务器)的网络设置
         self.udp_serversocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            self.recvaddress = (str(self.Send_ip.text()), int(self.Send_port.text()))
+            self.recvaddress = (str(self.tap1_read_line_2.text()), int(self.tap1_read_line_3.text()))
             self.udp_serversocket.bind(self.recvaddress)
             # 启动接收线程
 
@@ -294,11 +298,12 @@ class udp_logic(jiemian.Ui_MainWindow):
         self.Ciphertext.clear()
 
 
-if __name__ == '__main__':
+def main():
     app = QtWidgets.QApplication(sys.argv)
-    ui = udp_logic()
-    mainWindow = QMainWindow()
-    ui.setupUi(mainWindow)
-    mainWindow.show()
+    gui = udp_logic()
+    gui.show()
     sys.exit(app.exec_())
-    t = '192.168.43.236'
+
+
+if __name__ == '__main__':
+    main()

@@ -45,6 +45,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.main_widget.setLayout(self.main_layout)
 
         self.init_ui()
+        self.connect()
 
     def click_even(self):
         self.right_widget.show()
@@ -324,7 +325,7 @@ class MainUi(QtWidgets.QMainWindow):
         # 连接网络按钮
         self.tab.tap1_bottom_buttom_1.clicked.connect(self.click_On_net)
         # 断开网络按钮
-        self.tab.tap1_bottom_buttom_2.clicked(self.click_Off_net)
+        self.tab.tap1_bottom_buttom_2.clicked.connect(self.click_Off_net)
         # 公私钥生成
         self.tab.tap3_left_button_2.clicked.connect(self.click_PP_key)
         # 密钥交换
@@ -335,9 +336,6 @@ class MainUi(QtWidgets.QMainWindow):
         self.tab.tap4_bottom_buttom_2.clicked.connect(self.click_Send_msg)
         # 清空
         self.tab.tap2_bottom_pushbutton_3.clicked.connect(self.click_Plain_clear)
-
-
-
 
     def click_On_net(self):
         raise NotImplementedError
@@ -368,6 +366,10 @@ class MainUi(QtWidgets.QMainWindow):
 
     def click_Decrypt(self):
         raise NotImplementedError
+
+    def send_Show_msg(self, msg):
+        self.left_info_head.append(msg)
+        self.left_info_head.moveCursor(QtGui.QTextCursor.End)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
