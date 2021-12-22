@@ -24,13 +24,13 @@ class TabDemo(QTabWidget):
         self.addTab(self.tab2, "Tab 2")
         self.addTab(self.tab3, "Tab 3")
         self.addTab(self.tab4, "Tab 4")
-        self.addTab(self.tab5, "Tab 5")
+        # self.addTab(self.tab5, "Tab 5")
 
         self.tab1UI()
         self.tab2UI()
         self.tab3UI()
         self.tab4UI()
-        self.tab5UI()
+        # self.tab5UI()
 
         self.decorate()
         self.setWindowTitle("Tab 例子")
@@ -78,16 +78,16 @@ class TabDemo(QTabWidget):
         label_2.setStyleSheet("""border: none;background: #e3c56e""")
         label_2.setFixedSize(75, 50)
         left_layout.addWidget(label_2, 1, 0, 1, 1)
-        read_line = QtWidgets.QLineEdit()
-        read_line.setPlaceholderText('输入发送方IP.')
-        left_layout.addWidget(read_line, 1, 1, 1, 4)
+        self.tap1_read_line = QtWidgets.QLineEdit()
+        self.tap1_read_line.setPlaceholderText('输入发送方IP.')
+        left_layout.addWidget(self.tap1_read_line, 1, 1, 1, 4)
         label_3 = QLabel("端口:")
         label_3.setStyleSheet("""border: none;background: #e26073""")
         label_3.setFixedSize(75, 50)
         left_layout.addWidget(label_3, 2, 0, 1, 1)
-        read_line_1 = QtWidgets.QLineEdit()
-        read_line_1.setPlaceholderText('输入发送方端口.')
-        left_layout.addWidget(read_line_1, 2, 1, 1, 4)
+        self.tap1_read_line_1 = QtWidgets.QLineEdit()
+        self.tap1_read_line_1.setPlaceholderText('输入发送方端口.')
+        left_layout.addWidget(self.tap1_read_line_1, 2, 1, 1, 4)
 
         label_4 = QLabel("接收方")
         label_4.setStyleSheet(
@@ -106,16 +106,16 @@ class TabDemo(QTabWidget):
         label_5.setStyleSheet("""border: none;background: #e3c56e""")
         label_5.setFixedSize(75, 50)
         right_layout.addWidget(label_5, 1, 0, 1, 1)
-        read_line_2 = QtWidgets.QLineEdit()
-        read_line_2.setPlaceholderText('输入接收方IP.')
-        right_layout.addWidget(read_line_2, 1, 1, 1, 4)
+        self.tap1_read_line_2 = QtWidgets.QLineEdit()
+        self.tap1_read_line_2.setPlaceholderText('输入接收方IP.')
+        right_layout.addWidget(self.tap1_read_line_2, 1, 1, 1, 4)
         label_6 = QLabel("端口:")
         label_6.setStyleSheet("""border: none;background: #e26073""")
         label_6.setFixedSize(75, 50)
         right_layout.addWidget(label_6, 2, 0, 1, 1)
-        read_line_3 = QtWidgets.QLineEdit()
-        read_line_3.setPlaceholderText('输入接收方端口.')
-        right_layout.addWidget(read_line_3, 2, 1, 1, 4)
+        self.tap1_read_line_3 = QtWidgets.QLineEdit()
+        self.tap1_read_line_3.setPlaceholderText('输入接收方端口.')
+        right_layout.addWidget(self.tap1_read_line_3, 2, 1, 1, 4)
 
         label_1.setAlignment(QtCore.Qt.AlignCenter)
         label_2.setAlignment(QtCore.Qt.AlignCenter)
@@ -124,9 +124,9 @@ class TabDemo(QTabWidget):
         label_5.setAlignment(QtCore.Qt.AlignCenter)
         label_6.setAlignment(QtCore.Qt.AlignCenter)
 
-        bottom_buttom_1 = QPushButton("连接网络")
-        bottom_buttom_1.setFixedSize(180, 60)
-        bottom_buttom_1.setStyleSheet(
+        self.tap1_bottom_buttom_1 = QPushButton("连接网络")
+        self.tap1_bottom_buttom_1.setFixedSize(180, 60)
+        self.tap1_bottom_buttom_1.setStyleSheet(
             """
             QPushButton{
                 color: white;
@@ -139,9 +139,9 @@ class TabDemo(QTabWidget):
             }
             """
         )
-        bottom_buttom_2 = QPushButton("断开网络")
-        bottom_buttom_2.setFixedSize(180, 60)
-        bottom_buttom_2.setStyleSheet(
+        self.tap1_bottom_buttom_2 = QPushButton("断开网络")
+        self.tap1_bottom_buttom_2.setFixedSize(180, 60)
+        self.tap1_bottom_buttom_2.setStyleSheet(
             """
             QPushButton{
                 color: white;
@@ -154,8 +154,8 @@ class TabDemo(QTabWidget):
             }
             """
         )
-        bottom_layout.addWidget(bottom_buttom_1, 0, 0, 1, 1)
-        bottom_layout.addWidget(bottom_buttom_2, 0, 1, 1, 1)
+        bottom_layout.addWidget(self.tap1_bottom_buttom_1, 0, 0, 1, 1)
+        bottom_layout.addWidget(self.tap1_bottom_buttom_2, 0, 1, 1, 1)
 
         main_layout.addWidget(left_widget, 0, 0, 3, 1)
         main_layout.addWidget(right_widget, 0, 1, 3, 1)
@@ -248,9 +248,9 @@ class TabDemo(QTabWidget):
         passwd_1 = QtWidgets.QPushButton(qtawesome.icon('ei.twitter', color='black'), "明文")
         passwd_2 = QtWidgets.QPushButton(qtawesome.icon('fa.android', color='black'), "密文")
         passwd_3 = QtWidgets.QPushButton(qtawesome.icon('fa.apple', color='black'), "密钥配置")
-        passwd_text_1 = QtWidgets.QTextEdit()
-        passwd_text_2 = QtWidgets.QTextEdit()
-        passwd_text_3 = QtWidgets.QTextEdit()
+        self.passwd_text_1 = QtWidgets.QTextEdit()
+        self.passwd_text_2 = QtWidgets.QTextEdit()
+        self.passwd_text_3 = QtWidgets.QTextEdit()
         passwd_1.setIconSize(QtCore.QSize(20, 20))
         passwd_2.setIconSize(QtCore.QSize(20, 20))
         passwd_3.setIconSize(QtCore.QSize(20, 20))
@@ -262,9 +262,9 @@ class TabDemo(QTabWidget):
         passwd_layout.addWidget(passwd_1, 0, 0, 1, 1)
         passwd_layout.addWidget(passwd_2, 0, 1, 1, 1)
         passwd_layout.addWidget(passwd_3, 0, 2, 1, 1)
-        passwd_layout.addWidget(passwd_text_1, 1, 0, 3, 1)
-        passwd_layout.addWidget(passwd_text_2, 1, 1, 3, 1)
-        passwd_layout.addWidget(passwd_text_3, 1, 2, 3, 1)
+        passwd_layout.addWidget(self.passwd_text_1, 1, 0, 3, 1)
+        passwd_layout.addWidget(self.passwd_text_2, 1, 1, 3, 1)
+        passwd_layout.addWidget(self.passwd_text_3, 1, 2, 3, 1)
 
         passwd_1.setFixedSize(120, 30)
         passwd_2.setFixedSize(120, 30)
@@ -286,28 +286,28 @@ class TabDemo(QTabWidget):
         bottom_layout = QtWidgets.QGridLayout()
         bottom_widget.setLayout(bottom_layout)
 
-        bottom_pushbutton_1 = QtWidgets.QPushButton("加密")
-        bottom_pushbutton_2 = QtWidgets.QPushButton("解密")
-        bottom_pushbutton_3 = QtWidgets.QPushButton("清空")
-        bottom_layout.addWidget(bottom_pushbutton_1, 0, 0, 1, 1)
-        bottom_layout.addWidget(bottom_pushbutton_2, 0, 1, 1, 1)
-        bottom_layout.addWidget(bottom_pushbutton_3, 0, 2, 1, 1)
-        bottom_pushbutton_1.setStyleSheet("""
+        self.tap2_bottom_pushbutton_1 = QtWidgets.QPushButton("加密")
+        self.tap2_bottom_pushbutton_2 = QtWidgets.QPushButton("解密")
+        self.tap2_bottom_pushbutton_3 = QtWidgets.QPushButton("清空")
+        bottom_layout.addWidget(self.tap2_bottom_pushbutton_1, 0, 0, 1, 1)
+        bottom_layout.addWidget(self.tap2_bottom_pushbutton_2, 0, 1, 1, 1)
+        bottom_layout.addWidget(self.tap2_bottom_pushbutton_3, 0, 2, 1, 1)
+        self.tap2_bottom_pushbutton_1.setStyleSheet("""
         QPushButton{border:none;
         background:#199458;
         color:white;}
         QPushButton:pressed{font-weight:bold;}""")
-        bottom_pushbutton_2.setStyleSheet("""QPushButton{border:none;
+        self.tap2_bottom_pushbutton_2.setStyleSheet("""QPushButton{border:none;
         background:#d1b468;
         color:white;}
         QPushButton:pressed{font-weight:bold;}""")
-        bottom_pushbutton_3.setStyleSheet("""QPushButton{border:none;
+        self.tap2_bottom_pushbutton_3.setStyleSheet("""QPushButton{border:none;
         background:#b64f4c;
         color:white;}
         QPushButton:pressed{font-weight:bold;}""")
-        bottom_pushbutton_1.setFixedSize(120, 50)
-        bottom_pushbutton_2.setFixedSize(120, 50)
-        bottom_pushbutton_3.setFixedSize(120, 50)
+        self.tap2_bottom_pushbutton_1.setFixedSize(120, 50)
+        self.tap2_bottom_pushbutton_2.setFixedSize(120, 50)
+        self.tap2_bottom_pushbutton_3.setFixedSize(120, 50)
 
         main_layout.addWidget(bottom_widget)
 
@@ -324,8 +324,8 @@ class TabDemo(QTabWidget):
         left_widget.setLayout(left_layout)
 
         left_button_1 = QLabel("密钥协商")
-        left_button_2 = QPushButton("公私钥生成")
-        left_button_3 = QPushButton("密钥交换")
+        self.tap3_left_button_2 = QPushButton("公私钥生成")
+        self.tap3_left_button_3 = QPushButton("密钥交换")
         left_button_1.setFixedSize(150, 40)
         left_button_1.setAlignment(QtCore.Qt.AlignCenter)
         left_button_1.setStyleSheet(
@@ -337,10 +337,10 @@ class TabDemo(QTabWidget):
         )
 
         left_layout.addWidget(left_button_1, 0, 0, 1, 1)
-        left_layout.addWidget(left_button_2, 1, 0, 2, 1)
-        left_layout.addWidget(left_button_3, 3, 0, 2, 1)
-        left_button_2.setFixedSize(150, 60)
-        left_button_3.setFixedSize(150, 60)
+        left_layout.addWidget(self.tap3_left_button_2, 1, 0, 2, 1)
+        left_layout.addWidget(self.tap3_left_button_3, 3, 0, 2, 1)
+        self.tap3_left_button_2.setFixedSize(150, 60)
+        self.tap3_left_button_3.setFixedSize(150, 60)
         left_widget.setStyleSheet(
             """
             QPushButton{
@@ -372,10 +372,10 @@ class TabDemo(QTabWidget):
                 font-size: 24px;
             """
         )
-        right_text = QTextEdit()
-
+        self.tap3_right_text = QTextBrowser()
+        self.tap3_right_text.setFixedSize(400, 200)
         right_layout.addWidget(right_pushbutton, 0, 0, 1, 1)
-        right_layout.addWidget(right_text, 1, 0, 3, 1)
+        right_layout.addWidget(self.tap3_right_text, 1, 0, 3, 1)
 
         main_layout.addWidget(right_widget, 0, 1, 1, 1)
 
@@ -412,7 +412,8 @@ class TabDemo(QTabWidget):
         )
         label_1.setAlignment(QtCore.Qt.AlignCenter)
         left_layout.addWidget(label_1, 0, 0, 1, 1)
-        left_layout.addWidget(QTextEdit(), 1, 0, 3, 1)
+        self.tap4_textedit_1 = QTextEdit()
+        left_layout.addWidget(self.tap4_textedit_1, 1, 0, 3, 1)
 
         label_2 = QLabel("接收区")
         label_2.setStyleSheet(
@@ -429,15 +430,16 @@ class TabDemo(QTabWidget):
         label_2.setAlignment(QtCore.Qt.AlignCenter)
         label_2.setFixedSize(75, 40)
         right_layout.addWidget(label_2, 0, 0, 1, 1)
-        right_layout.addWidget(QTextEdit(), 1, 0, 3, 1)
+        self.tap4_textedit_2 = QTextEdit()
+        right_layout.addWidget(self.tap4_textedit_2, 1, 0, 3, 1)
 
 
-        bottom_buttom_1 = QPushButton("数字签名")
-        bottom_buttom_1.setFixedSize(180, 60)
-        bottom_buttom_2 = QPushButton("发送消息")
-        bottom_buttom_2.setFixedSize(180, 60)
-        bottom_layout.addWidget(bottom_buttom_1, 0, 0, 1, 1)
-        bottom_layout.addWidget(bottom_buttom_2, 0, 1, 1, 1)
+        self.tap4_bottom_buttom_1 = QPushButton("数字签名")
+        self.tap4_bottom_buttom_1.setFixedSize(180, 60)
+        self.tap4_bottom_buttom_2 = QPushButton("发送消息")
+        self.tap4_bottom_buttom_2.setFixedSize(180, 60)
+        bottom_layout.addWidget(self.tap4_bottom_buttom_1, 0, 0, 1, 1)
+        bottom_layout.addWidget(self.tap4_bottom_buttom_2, 0, 1, 1, 1)
 
         bottom_widget.setStyleSheet(
             """
@@ -505,7 +507,6 @@ class TabDemo(QTabWidget):
                 padding-left: 2px;
                 padding-right: 2px;
                 font-family: "华文中宋";
-
             """
         )
         self.tab4.setStyleSheet(
@@ -552,7 +553,7 @@ class TabDemo(QTabWidget):
                     font-size:16px;
                     padding-left:-9px;
                     padding-right:-9px;
-                    width:180px;
+                    width:195px;
                     height:30px;
                     margin-left:0px;
                     margin-right:40px;

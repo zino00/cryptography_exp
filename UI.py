@@ -61,8 +61,10 @@ class MainUi(QtWidgets.QMainWindow):
 
         # 左半部分的UI设计
         self.left_close = QtWidgets.QPushButton("")
+        self.left_close.setToolTip("关闭")
         self.left_visit = QtWidgets.QPushButton("")
         self.left_mini = QtWidgets.QPushButton("")
+        self.left_mini.setToolTip("最小化")
 
         self.left_close.clicked.connect(QCoreApplication.instance().quit)
         self.left_mini.clicked.connect(self.showMinimized)
@@ -140,7 +142,22 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_info_layout = QtWidgets.QGridLayout()
         self.right_info_widget.setLayout(self.right_info_layout)
 
-        self.left_info_head = QtWidgets.QWidget()
+        self.left_info_head = QtWidgets.QTextBrowser()
+        self.left_info_head.setFixedSize(850, 100)
+        self.left_info_label = QLabel("操作信息")
+        self.left_info_label.setStyleSheet(
+            """
+                font-family:"华文中宋";
+                font-size: 24px;
+            """
+        )
+        self.left_info_head.setStyleSheet(
+            """
+                font-family:"华文中宋";
+                font-size: 16px;
+            """
+        )
+
         self.right_info_head = QtWidgets.QToolButton()
         self.right_info_head.setIcon(QtGui.QIcon('./head.jpg'))
         self.right_info_head.setIconSize(QtCore.QSize(30, 30))
@@ -153,12 +170,13 @@ class MainUi(QtWidgets.QMainWindow):
         self.sys_setting = QtWidgets.QPushButton(qtawesome.icon('ri.settings-4-fill', color='black'), "")
         self.sys_setting.setIconSize(QtCore.QSize(30, 30))
 
-        self.right_info_layout.addWidget(self.left_info_head, 0, 0, 1, 3)
-        self.right_info_layout.addWidget(self.right_info_head, 0, 3, 1, 1)
-        self.right_info_layout.addWidget(self.display_name, 0, 4, 1, 1)
-        self.right_info_layout.addWidget(self.color_setting, 0, 5, 1, 1)
-        self.right_info_layout.addWidget(self.sys_setting, 0, 6, 1, 1)
-        self.right_layout.addWidget(self.right_info_widget, 0, 0, 1, 9)
+        self.right_info_layout.addWidget(self.left_info_label, 0, 0, 1, 3)
+        self.right_info_layout.addWidget(self.left_info_head, 1, 0, 1, 3)
+        # self.right_info_layout.addWidget(self.right_info_head, 0, 3, 1, 1)
+        # self.right_info_layout.addWidget(self.display_name, 0, 4, 1, 1)
+        # self.right_info_layout.addWidget(self.color_setting, 0, 5, 1, 1)
+        # self.right_info_layout.addWidget(self.sys_setting, 0, 6, 1, 1)
+        self.right_layout.addWidget(self.right_info_widget, 16, 0, 1, 9)
 
     def search_bar(self):
         # 右侧顶部搜索部件
@@ -173,11 +191,11 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_bar_layout.addWidget(self.search_icon, 0, 0, 1, 1)
 
         self.right_bar_layout.addWidget(self.right_bar_widget_search_input, 0, 1, 1, 8)
-        self.right_layout.addWidget(self.right_bar_widget, 1, 0, 1, 9)
+        self.right_layout.addWidget(self.right_bar_widget, 0, 0, 1, 9)
 
     def exp_bar(self):
         self.tab = TabDemo()
-        self.right_layout.addWidget(self.tab, 2, 0, 10, 9)
+        self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
         self.setFixedSize(1097, 800)
@@ -302,6 +320,54 @@ class MainUi(QtWidgets.QMainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.main_layout.setSpacing(0)
 
+    def connect(self):
+        # 连接网络按钮
+        self.tab.tap1_bottom_buttom_1.clicked.connect(self.click_On_net)
+        # 断开网络按钮
+        self.tab.tap1_bottom_buttom_2.clicked(self.click_Off_net)
+        # 公私钥生成
+        self.tab.tap3_left_button_2.clicked.connect(self.click_PP_key)
+        # 密钥交换
+        self.tab.tap3_left_button_3.clicked.connect(self.click_Change_key)
+        # 数字签名
+        self.tab.tap4_bottom_buttom_1.clicked.connect(self.click_RSA_sign)
+        # 发送消息
+        self.tab.tap4_bottom_buttom_2.clicked.connect(self.click_Send_msg)
+        # 清空
+        self.tab.tap2_bottom_pushbutton_3.clicked.connect(self.click_Plain_clear)
+
+
+
+
+    def click_On_net(self):
+        raise NotImplementedError
+
+    def click_Off_net(self):
+        raise NotImplementedError
+
+    def click_PP_key(self):
+        raise NotImplementedError
+
+    def click_Change_key(self):
+        raise NotImplementedError
+
+    def click_RSA_sign(self):
+        raise NotImplementedError
+
+    def click_Send_msg(self):
+        raise NotImplementedError
+
+    def click_Plain_clear(self):
+        raise NotImplementedError
+
+    def click_Cipher_clear(self):
+        raise NotImplementedError
+
+    def click_Encrypt(self):
+        raise NotImplementedError
+
+    def click_Decrypt(self):
+        raise NotImplementedError
 
 def main():
     app = QtWidgets.QApplication(sys.argv)

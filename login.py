@@ -7,6 +7,7 @@
 # @Software: PyCharm
 """login,py"""
 import qtawesome
+import UI
 
 """登入界面"""
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -75,7 +76,15 @@ class main_ui(QtWidgets.QMainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         # self.main_layout.setSpacing(0)
         # self.login_layout.setSpacing(0)
+
+    def pass_button_sign(self):
+        self.hide()
+        UI.main()
+        self.show()
+
+
     """初始界面"""
+
     def init_ui(self):
         # 登入界面的大小
         self.setFixedSize(550, 580)
@@ -97,7 +106,11 @@ class main_ui(QtWidgets.QMainWindow):
         self.login_layout.addWidget(self.passwd_login, 1, 2, 1, 1)
 
         self.setCentralWidget(self.main_widget)
+
+        self.passwd_login.clicked.connect(self.pass_button_sign)
+
     """登录头像"""
+
     def head_icon(self):
         self.picture.setMaximumSize(200, 200)
         self.picture.setMinimumSize(200, 200)
@@ -114,7 +127,9 @@ class main_ui(QtWidgets.QMainWindow):
         painter.setClipPath(path)
         painter.drawPixmap(0, 0, p)
         self.picture.setPixmap(self.picture.target)
+
     """QSS修饰"""
+
     def decorate(self):
         self.main_widget.setStyleSheet(
             """
@@ -228,5 +243,5 @@ if __name__ == "__main__":
     win = main_ui()
     win.show()
     sys.exit(app.exec_())
-from qtawesome import icon_browser
-icon_browser.run()
+# from qtawesome import icon_browser
+# icon_browser.run()
