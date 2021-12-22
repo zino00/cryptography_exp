@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/12/22 16:40
 # @Author  : Yiu
-# @Site    : 
+# @Site    :
 # @File    : main.py
 # @Software: PyCharm
 import base64
@@ -10,6 +10,7 @@ import threading
 
 from PyQt5 import *
 from PyQt5.QtWidgets import *
+from PyQt5 import QtWidgets
 import UI
 import socket
 import os
@@ -66,3 +67,13 @@ class udp_logic(UI.MainUi):
             self.link = True
             msg = '接收端端正在监听端口:{}\n'.format(int(self.Send_port.text()))
             self.send_Show_msg(msg)
+
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    gui = udp_logic()
+    gui.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()

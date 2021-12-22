@@ -20,8 +20,8 @@ class TabDemo(QTabWidget):
         self.tab4 = QWidget()
         self.tab5 = QWidget()
 
-        self.addTab(self.tab1, "Tab 1")
         self.addTab(self.tab2, "Tab 2")
+        self.addTab(self.tab1, "Tab 1")
         self.addTab(self.tab3, "Tab 3")
         self.addTab(self.tab4, "Tab 4")
         # self.addTab(self.tab5, "Tab 5")
@@ -36,12 +36,22 @@ class TabDemo(QTabWidget):
         self.setWindowTitle("Tab 例子")
 
     def Tbutton_1(self):
+        self.comboBox.clear()
+        self.comboBox.addItem("默认")
         self.pushbutton_1.setText(self.algrithm_1.text())
     def Tbutton_2(self):
+        self.comboBox.clear()
+        self.comboBox.addItem("RC4")
+        self.comboBox.addItem("LFSR+J-K触发器")
         self.pushbutton_1.setText(self.algrithm_2.text())
     def Tbutton_3(self):
+        self.comboBox.clear()
+        self.comboBox.addItem("DES")
+        self.comboBox.addItem("AES")
         self.pushbutton_1.setText(self.algrithm_3.text())
     def Tbutton_4(self):
+        self.comboBox.clear()
+        self.comboBox.addItem("RSA")
         self.pushbutton_1.setText(self.algrithm_4.text())
 
 
@@ -161,7 +171,7 @@ class TabDemo(QTabWidget):
         main_layout.addWidget(right_widget, 0, 1, 3, 1)
         main_layout.addWidget(bottom_widget, 3, 0, 1, 2)
 
-        self.setTabText(0, "网络设置")
+        self.setTabText(1, "网络设置")
         # 在标签1中添加这个帧布局
         self.tab1.setLayout(main_layout)
 
@@ -188,7 +198,14 @@ class TabDemo(QTabWidget):
             """
         )
         self.pushbutton_1.setAlignment(QtCore.Qt.AlignCenter)
-        pushbutton_layout.addWidget(self.pushbutton_1, 0, 0, 1, 1)
+
+        self.comboBox = QtWidgets.QComboBox()
+        self.comboBox.setEditable(False)
+        self.comboBox.setObjectName("combo_box")
+        self.comboBox.addItem("默认")
+
+        pushbutton_layout.addWidget(self.pushbutton_1, 0, 0, 1, 2)
+        pushbutton_layout.addWidget(self.comboBox, 0, 2, 1, 1)
         main_layout.addWidget(pushbutton_widget)
 
         algrithm_widget = QtWidgets.QWidget()
@@ -245,38 +262,59 @@ class TabDemo(QTabWidget):
 
         main_layout.addWidget(algrithm_widget)
 
-        passwd_1 = QtWidgets.QPushButton(qtawesome.icon('ei.twitter', color='black'), "明文")
-        passwd_2 = QtWidgets.QPushButton(qtawesome.icon('fa.android', color='black'), "密文")
-        passwd_3 = QtWidgets.QPushButton(qtawesome.icon('fa.apple', color='black'), "密钥配置")
+        self.passwd_1 = QtWidgets.QPushButton(qtawesome.icon('ei.twitter', color='black'), "明文")
+        self.passwd_2 = QtWidgets.QPushButton(qtawesome.icon('fa.android', color='black'), "密文")
+        self.passwd_3 = QtWidgets.QPushButton(qtawesome.icon('fa.apple', color='black'), "密钥配置")
+        self.passwd_1.setObjectName("label")
+        self.passwd_2.setObjectName("label")
+        self.passwd_3.setObjectName("label")
+
+        self.clear_1 = QtWidgets.QPushButton("清除")
+        self.clear_2 = QtWidgets.QPushButton("清除")
+        self.clear_3 = QtWidgets.QPushButton("清除")
+        self.clear_1.setObjectName("remove")
+        self.clear_2.setObjectName("remove")
+        self.clear_3.setObjectName("remove")
+        self.clear_1.setFixedSize(80, 40)
+        self.clear_2.setFixedSize(80, 40)
+        self.clear_3.setFixedSize(80, 40)
+
         self.passwd_text_1 = QtWidgets.QTextEdit()
         self.passwd_text_2 = QtWidgets.QTextEdit()
         self.passwd_text_3 = QtWidgets.QTextEdit()
-        passwd_1.setIconSize(QtCore.QSize(20, 20))
-        passwd_2.setIconSize(QtCore.QSize(20, 20))
-        passwd_3.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_1.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_2.setIconSize(QtCore.QSize(20, 20))
+        self.passwd_3.setIconSize(QtCore.QSize(20, 20))
 
         passwd_widget = QtWidgets.QWidget()
         passwd_layout = QtWidgets.QGridLayout()
         passwd_widget.setLayout(passwd_layout)
 
-        passwd_layout.addWidget(passwd_1, 0, 0, 1, 1)
-        passwd_layout.addWidget(passwd_2, 0, 1, 1, 1)
-        passwd_layout.addWidget(passwd_3, 0, 2, 1, 1)
-        passwd_layout.addWidget(self.passwd_text_1, 1, 0, 3, 1)
-        passwd_layout.addWidget(self.passwd_text_2, 1, 1, 3, 1)
-        passwd_layout.addWidget(self.passwd_text_3, 1, 2, 3, 1)
+        passwd_layout.addWidget(self.passwd_1, 0, 0, 1, 1)
+        passwd_layout.addWidget(self.clear_1, 0, 1, 1, 1)
+        passwd_layout.addWidget(self.passwd_2, 0, 2, 1, 1)
+        passwd_layout.addWidget(self.clear_2, 0, 3, 1, 1)
+        passwd_layout.addWidget(self.passwd_3, 0, 4, 1, 1)
+        passwd_layout.addWidget(self.clear_3, 0, 5, 1, 1)
+        passwd_layout.addWidget(self.passwd_text_1, 1, 0, 3, 2)
+        passwd_layout.addWidget(self.passwd_text_2, 1, 2, 3, 2)
+        passwd_layout.addWidget(self.passwd_text_3, 1, 4, 3, 2)
 
-        passwd_1.setFixedSize(120, 30)
-        passwd_2.setFixedSize(120, 30)
-        passwd_3.setFixedSize(120, 30)
+        self.passwd_1.setFixedSize(120, 30)
+        self.passwd_2.setFixedSize(120, 30)
+        self.passwd_3.setFixedSize(120, 30)
         passwd_widget.setStyleSheet(
             """
-            QPushButton{
+            QPushButton#label{
                 border:none;
                 color: black;
                 border-left:4px solid black;
                 text-align: left;
             }
+            QPushButton#remove{border:none;
+            background:black;
+            color:white;}
+            QPushButton#remove:pressed{font-weight:bold;}
             """
         )
 
@@ -311,7 +349,7 @@ class TabDemo(QTabWidget):
 
         main_layout.addWidget(bottom_widget)
 
-        self.setTabText(1, "数据加密")
+        self.setTabText(0, "数据加密")
         self.tab2.setLayout(main_layout)
 
     def tab3UI(self):
@@ -543,18 +581,18 @@ class TabDemo(QTabWidget):
                     border:none;
                 }
                 QTabBar{
-                    font-size:16px;
+                    font-size:20px;
                 }
                 QTabBar::tab	
                 {
                     color:#333333;
                     background:transparent;
                     font-family:"华文中宋";
-                    font-size:16px;
+                    font-size:20px;
                     padding-left:-9px;
                     padding-right:-9px;
-                    width:195px;
-                    height:30px;
+                    width:210px;
+                    height:40px;
                     margin-left:0px;
                     margin-right:40px;
                 }
@@ -564,10 +602,9 @@ class TabDemo(QTabWidget):
                     color:red;
                     background:transparent;
                     font-family: "华文中宋";
-                    font-size:18px;
+                    font-size:22px;
                     border-bottom:2px solid red;
                     font-weight: bold;
                 }
-
             """
         )
