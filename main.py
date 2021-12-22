@@ -11,7 +11,7 @@ import crypto
 import _dh
 import datetime
 import UI
-import tapUI
+from tapUI import TabDemo
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
@@ -37,11 +37,10 @@ class udp_logic(UI.MainUi):
     # 实现连接网络的控件，生产子线程监听端口
     def click_On_net(self):
         # 作为发送方（客户端）的网络设置
-        #self.left_info_head.append('ssjk')
-        #self.send_Show_msg('jk')
+        self.send_Show_msg((str(self.tab.tap1_read_line.text())))
         self.udp_clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            self.sendaddress = (str(self.tap1_read_line.text()), int(self.tap1_read_line_1.text()))
+            self.sendaddress = (str(self.tab.tap1_read_line.text()), int(self.tab.tap1_read_line_1.text()))
         except Exception as e:
             msg = '发送端设置异常,请检查目标IP，目标端口\n'
             self.send_Show_msg(msg)
@@ -52,7 +51,7 @@ class udp_logic(UI.MainUi):
         # 作为接收方(服务器)的网络设置
         self.udp_serversocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
-            self.recvaddress = (str(self.tap1_read_line_2.text()), int(self.tap1_read_line_3.text()))
+            self.recvaddress = (str(self.tab.tap1_read_line_2.text()), int(self.tab.tap1_read_line_3.text()))
             self.udp_serversocket.bind(self.recvaddress)
             # 启动接收线程
 
@@ -63,7 +62,7 @@ class udp_logic(UI.MainUi):
             self.recv_thread = threading.Thread(target=self.server_recv)
             self.recv_thread.start()
             self.link = True
-            msg = '接收端端正在监听端口:{}\n'.format(int(self.Send_port.text()))
+            msg = '接收端端正在监听端口:{}\n'.format(int(self.tab.tap1_read_line_3.text()))
             self.send_Show_msg(msg)
 
     # 实现断开网络控件
@@ -96,7 +95,7 @@ class udp_logic(UI.MainUi):
                     s4 = s2[len:].decode()  # 签名的消息
                     aes = crypto.aes_crypto(str(self.share_key)[:16].encode())
                     s5 = aes.decrypt(s3).decode()  # 原消息aes解密
-                    self.Net_recv.appendPlainText(s5)
+                    self.tab.tap4_textedit_2.appendPlainText(s5)
                     msg = '身份认证成功!\n'
                     self.send_Show_msg(msg)
                     continue
@@ -123,7 +122,7 @@ class udp_logic(UI.MainUi):
                     msg = '身份认证通过。共享密钥生成成功!\n'
                     self.send_Show_msg(msg)
                     msg = str(self.share_key)[:16]
-                    self.Share_key.append(msg)
+                    self.tab.tap3_right_text.append(msg)
                 if recv_msg[:4] == '[#3]':  # 认证签名
                     self.send_Show_msg(msg)
                     recv_sign = _dh.atoi(recv_msg[4:])
@@ -143,7 +142,7 @@ class udp_logic(UI.MainUi):
                     msg = '身份认证通过。共享密钥生成成功!\n'
                     self.send_Show_msg(msg)
                     msg = str(self.share_key)[:16]
-                    self.Share_key.append(msg)
+                    self.tab.tap3_right_text.append(msg)
             except Exception as e:
                 msg = '未知错误'
                 self.send_Show_msg(msg)
@@ -183,7 +182,7 @@ class udp_logic(UI.MainUi):
 
     # 同通信的消息用AES加密后，在使用RSA签名进行发送
     def click_RSA_sign(self):
-        message = self.Net_send.toPlainText()
+        message = self.tab.tap4_textedit_1.toPlainText()
         aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
         s1 = aes.encrypt(message.encode())  # 消息
         h = MD5.new(s1)
@@ -192,7 +191,8 @@ class udp_logic(UI.MainUi):
         temp = str(len(s1)) # 消息的长度
         s2 = base64.b64encode(signer)
         self.send_msg = temp.encode() + 'length'.encode() + s1 + s2
-        self.Net_send.appendPlainText(str(self.send_msg))
+        print(self.send_msg)
+        self.tab.tap4_textedit_1.appendPlainText(str(self.send_msg))
         self.send_Show_msg('数字签名成功!\n')
 
     # 实现发送消息的控件

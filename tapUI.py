@@ -433,7 +433,7 @@ class TabDemo(QTabWidget):
         )
         label_1.setAlignment(QtCore.Qt.AlignCenter)
         left_layout.addWidget(label_1, 0, 0, 1, 1)
-        self.tap4_textedit_1 = QTextEdit()
+        self.tap4_textedit_1 = QPlainTextEdit()#QTextEdit()
         left_layout.addWidget(self.tap4_textedit_1, 1, 0, 3, 1)
 
         label_2 = QLabel("接收区")
@@ -451,7 +451,7 @@ class TabDemo(QTabWidget):
         label_2.setAlignment(QtCore.Qt.AlignCenter)
         label_2.setFixedSize(75, 40)
         right_layout.addWidget(label_2, 0, 0, 1, 1)
-        self.tap4_textedit_2 = QTextEdit()
+        self.tap4_textedit_2 = QPlainTextEdit()
         right_layout.addWidget(self.tap4_textedit_2, 1, 0, 3, 1)
 
 
