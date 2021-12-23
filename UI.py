@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2021/12/11 19:46
 # @Author  : Yiu
-# @Site    : 
+# @Site    :
 # @File    : UI.py
 # @Software: PyCharm
 """
@@ -37,6 +37,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QCoreApplication
 from selenium import webdriver
 import time
+
 
 
 class MainUi(QtWidgets.QMainWindow):
@@ -331,7 +332,9 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
+
         self.setFixedSize(1200, 900)
+
 
         self.init_left()
         self.init_right()
@@ -344,6 +347,8 @@ class MainUi(QtWidgets.QMainWindow):
         self.decorate()
         self.left_visit.released.connect(self.click_even)
         self.left_visit.pressed.connect(self.click_even_2)
+
+        self.setWindowIcon(QtGui.QIcon(qtawesome.icon('mdi.steam', color='white')))
 
         self.setWindowIcon(QtGui.QIcon(qtawesome.icon('mdi.steam', color='white')))
 
@@ -506,6 +511,9 @@ class MainUi(QtWidgets.QMainWindow):
     def click_Decrypt(self):
         raise NotImplementedError
 
+    def send_Show_msg(self, msg):
+        self.left_info_head.append(msg)
+        self.left_info_head.moveCursor(QtGui.QTextCursor.End)
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
@@ -516,3 +524,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+

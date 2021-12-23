@@ -81,6 +81,7 @@ class udp_logic(jiemian.Ui_MainWindow):
             try:
                 # 接收发送过来的字符
                 recv_msg, recv_addr = self.udp_serversocket.recvfrom(1024)
+                print(recv_msg);
                 if recv_msg[:4] == b'[#5]':  # 接收到签名的消息验证后显示
                     recv_msg = recv_msg[4:]
                     msg = '来自IP:{} 端口: {} 的消息:'.format(recv_addr[0], recv_addr[1])
@@ -108,12 +109,13 @@ class udp_logic(jiemian.Ui_MainWindow):
                     test = _dh.ex_DH(self.private_key, self.public_key)
                     self.rand_a = test.random_key()
                     X = test.get_calculation(self.rand_a)
-                    sign = test.rsa_sign(str(X))
+                    #sign = test.rsa_sign(str(X))
                     self.client_send('[#4]', '[#4]' + str(X))
                     self.send_Show_msg(msg)
                     recv_key = recv_msg[4:]  # 接收到的Y
                     self.recv_rand_a = _dh.atoi(recv_key)  # 字符转化为数字
                     self.share_key = test.get_key(self.rand_a, self.recv_rand_a)
+                    print(self.share_key)
                     msg = '对方DH协商安全参数' + str(recv_key)+'\n'
                     self.send_Show_msg(msg)
                     msg = '身份认证通过。共享密钥生成成功!\n'
@@ -174,7 +176,7 @@ class udp_logic(jiemian.Ui_MainWindow):
         test = _dh.ex_DH(self.private_key, self.public_key)
         self.rand_a = test.random_key()
         X = test.get_calculation(self.rand_a)
-        sign = test.rsa_sign(str(X))
+        #sign = test.rsa_sign(str(X))
         self.client_send('[#2]', '[#2]'+str(X))
 
     # 同通信的消息用AES加密后，在使用RSA签名进行发送
