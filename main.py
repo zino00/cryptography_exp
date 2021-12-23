@@ -29,8 +29,10 @@ class udp_logic(UI.MainUi):
         self.sendaddress = None
         self.recvaddress = None
         self.link = False
-        self.rand_a = None
-        self.recv_rand_a = None
+        self.XA = None
+        self.XB = None
+        self.recv_YA = None
+        self.recv_YB = None
         self.share_key = None
         self.send_msg = None
 
@@ -88,15 +90,27 @@ class udp_logic(UI.MainUi):
                     recv_msg = recv_msg[4:]
                     msg = '来自IP:{} 端口: {} 的消息:'.format(recv_addr[0], recv_addr[1])
                     self.send_Show_msg(msg)
-                    s1 = recv_msg.split(b'length')[0]  # 原消息长度
-                    s2 = recv_msg.split(b'length')[1]  # 签名消息
-                    len = _dh.atoi(s1.decode())
-                    s3 = s2[:len]  # 原消息
-                    s4 = s2[len:].decode()  # 签名的消息
+
                     aes = crypto.aes_crypto(str(self.share_key)[:16].encode())
-                    s5 = aes.decrypt(s3).decode()  # 原消息aes解密
-                    self.tab.tap4_textedit_2.appendPlainText(s5)
-                    msg = '身份认证成功!\n'
+                    print(recv_msg)
+                    #self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
+                    s1 = aes.decrypt(recv_msg).decode()  # 原消息aes解密
+                    msg = '消息解密成功,开始验证消息签名\n'
+                    self.send_Show_msg(msg)
+                    # 签名验证
+                    message = s1.split('||')[0]  # 原消息
+                    signer = s1.split('||')[1]  # 消息签名
+                    bytes = base64.b64decode(signer.encode())
+                    h = MD5.new(message.encode())
+                    verifier = PKCS1_v1_5.new(self.public_key)
+                    if verifier.verify(h, bytes):
+                        msg = '签名验证成功\n'
+                        self.send_Show_msg(msg)
+                    else:
+                        msg = '无效签名\n'
+                        self.send_Show_msg(msg)
+                    self.tab.tap4_textedit_2.appendPlainText(message)
+                    msg = '已成功输出经过签名验证的明文!\n'
                     self.send_Show_msg(msg)
                     continue
                 recv_msg = recv_msg.decode()
@@ -109,14 +123,14 @@ class udp_logic(UI.MainUi):
                     self.send_Show_msg(msg+'\n'+self.recv_pk.decode()+'\n')
                 if recv_msg[:4] == '[#2]':  # 协商共享密钥
                     test = _dh.ex_DH(self.private_key, self.public_key)
-                    self.rand_a = test.random_key()
-                    X = test.get_calculation(self.rand_a)
-                    sign = test.rsa_sign(str(X))
-                    self.client_send('[#4]', '[#4]' + str(X))
+                    self.XB = test.random_key()
+                    YB = test.get_calculation(self.XB)
+                    #sign = test.rsa_sign(str(YB))
+                    self.client_send('[#4]', '[#4]' + str(YB))
                     self.send_Show_msg(msg)
-                    recv_key = recv_msg[4:]  # 接收到的Y
-                    self.recv_rand_a = _dh.atoi(recv_key)  # 字符转化为数字
-                    self.share_key = test.get_key(self.rand_a, self.recv_rand_a)
+                    recv_key = recv_msg[4:]  # 接收到的YA
+                    self.recv_YA = _dh.atoi(recv_key)  # 字符转化为数字
+                    self.share_key = test.get_key(self.XB, self.recv_YA)
                     msg = '对方DH协商安全参数' + str(recv_key)+'\n'
                     self.send_Show_msg(msg)
                     msg = '身份认证通过。共享密钥生成成功!\n'
@@ -135,8 +149,8 @@ class udp_logic(UI.MainUi):
                     test = _dh.ex_DH(self.private_key, self.public_key)
                     self.send_Show_msg(msg)
                     recv_key = recv_msg[4:]
-                    self.recv_rand_a = _dh.atoi(recv_key)
-                    self.share_key = test.get_key(self.rand_a, self.recv_rand_a)
+                    self.recv_YB = _dh.atoi(recv_key)
+                    self.share_key = test.get_key(self.XA, self.recv_YB)
                     msg = '对方DH协商安全参数' + str(recv_key)+'\n'
                     self.send_Show_msg(msg)
                     msg = '身份认证通过。共享密钥生成成功!\n'
@@ -175,24 +189,29 @@ class udp_logic(UI.MainUi):
     # DH协议协商共享密钥
     def click_Change_key(self):
         test = _dh.ex_DH(self.private_key, self.public_key)
-        self.rand_a = test.random_key()
-        X = test.get_calculation(self.rand_a)
-        sign = test.rsa_sign(str(X))
-        self.client_send('[#2]', '[#2]'+str(X))
+        self.XA = test.random_key()
+        YA = test.get_calculation(self.XA)
+        sign = test.rsa_sign(str(YA))
+        self.client_send('[#2]', '[#2]'+str(YA))
 
     # 同通信的消息用AES加密后，在使用RSA签名进行发送
     def click_RSA_sign(self):
+        test=_dh.ex_DH(self.private_key, self.public_key)
         message = self.tab.tap4_textedit_1.toPlainText()
-        aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
-        s1 = aes.encrypt(message.encode())  # 消息
-        h = MD5.new(s1)
+        # 签名
+        h = MD5.new(message.encode())
         rsa = PKCS1_v1_5.new(self.private_key)
-        signer = rsa.sign(h)  # 签名
-        temp = str(len(s1)) # 消息的长度
-        s2 = base64.b64encode(signer)
-        self.send_msg = temp.encode() + 'length'.encode() + s1 + s2
+        signature = rsa.sign(h)
+        s2 = base64.b64encode(signature)
+        # 加密消息本身和签名
+        s1 = message.encode()
+        s3 = s1+'||'.encode()+s2
+        aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
+        self.send_msg = aes.encrypt(s3)  #加密
         print(self.send_msg)
         self.tab.tap4_textedit_1.appendPlainText(str(self.send_msg))
+        #self.send_Show_msg(str(self.send_msg))
+
         self.send_Show_msg('数字签名成功!\n')
 
     # 实现发送消息的控件

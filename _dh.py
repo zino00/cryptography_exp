@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # coding=utf-8
+import base64
 
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
@@ -47,14 +48,16 @@ class ex_DH():
     def rsa_sign(self, message):
         # 对消息进行签名
         h = MD5.new(message.encode(encoding='utf-8'))
-        signer = PKCS1_v1_5.new(self.private_key)
-        signature = signer.sign(h)
+        rsa = PKCS1_v1_5.new(self.private_key)
+        signature = rsa.sign(h)
         return signature
 
     def rsa_verify(self, message, signature):
         # 对消息进行签名验证
         h = MD5.new(message.encode(encoding='utf-8'))
         verifier = PKCS1_v1_5.new(self.public_key)
+        #ss=base64.b64encode(verifier)
+        #(ss)
         if verifier.verify(h, signature):
             print("OK")
         else:
@@ -126,3 +129,6 @@ if __name__ == "__main__":
 
     print(key_A == key_B)
     print(str(1234))
+    message='dfdd'
+    sig=dh.rsa_sign(message)
+    dh.rsa_verify(message, sig)
