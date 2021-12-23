@@ -1,9 +1,30 @@
+<<<<<<< HEAD
 import base64
+=======
+<<<<<<< HEAD
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2021/12/22 16:40
+# @Author  : Yiu
+# @Site    :
+# @File    : main.py
+# @Software: PyCharm
+import base64
+import threading
+
+from PyQt5 import *
+from PyQt5.QtWidgets import *
+from PyQt5 import QtWidgets
+import UI
+=======
+import base64 #cs
+>>>>>>> Dominique-Yiu/master
 import threading
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 import jiemian
+>>>>>>> c74339132b5d8d8ca6f0716d9cca99eed5d1db03
 import socket
 import sys
 import binascii
@@ -67,6 +88,17 @@ class udp_logic(UI.MainUi):
             msg = '接收端端正在监听端口:{}\n'.format(int(self.tab.tap1_read_line_3.text()))
             self.send_Show_msg(msg)
 
+<<<<<<< HEAD
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    gui = udp_logic()
+    gui.show()
+    sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
+=======
     # 实现断开网络控件
     def click_Off_net(self):
         try:
@@ -322,7 +354,12 @@ def main():
     gui = udp_logic()
     gui.show()
     sys.exit(app.exec_())
+<<<<<<< HEAD
 
 
 if __name__ == '__main__':
     main()
+=======
+    t = '192.168.43.236'
+>>>>>>> c74339132b5d8d8ca6f0716d9cca99eed5d1db03
+>>>>>>> Dominique-Yiu/master

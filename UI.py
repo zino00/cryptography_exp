@@ -8,6 +8,8 @@
 """
 图形化界面设计
 """
+from PyQt5.QtGui import QMouseEvent
+
 """
 常用模块：
 - QtCore: 包含非GUI的功能设计，这个模块用来实现时间，文件和目录，不同数据类型，流，URL，mime类型，线程和进行
@@ -33,6 +35,9 @@ import qtawesome
 from tapUI import TabDemo
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QCoreApplication
+from selenium import webdriver
+import time
+
 
 
 class MainUi(QtWidgets.QMainWindow):
@@ -50,6 +55,9 @@ class MainUi(QtWidgets.QMainWindow):
 
     def click_even(self):
         self.right_widget.show()
+
+    def click_even_2(self):
+        self.right_widget.hide()
 
     def init_left(self):
         # 创建左部件
@@ -95,6 +103,16 @@ class MainUi(QtWidgets.QMainWindow):
         self.left_button_8.setObjectName('left_button')
         self.left_button_9 = QtWidgets.QPushButton(qtawesome.icon('fa5.comment-dots', color='white'), "遇到问题")
         self.left_button_9.setObjectName('left_button')
+
+        self.left_button_1.clicked.connect(self.p1_event)
+        self.left_button_2.clicked.connect(self.p2_event)
+        self.left_button_3.clicked.connect(self.p3_event)
+        self.left_button_4.clicked.connect(self.p4_event)
+        self.left_button_5.clicked.connect(self.p5_event)
+        self.left_button_6.clicked.connect(self.p6_event)
+        self.left_button_7.clicked.connect(self.p7_event)
+        self.left_button_8.clicked.connect(self.p8_event)
+        self.left_button_9.clicked.connect(self.p9_event)
 
         self.left_button_1.setIconSize(QtCore.QSize(20, 20))
         self.left_button_2.setIconSize(QtCore.QSize(20, 20))
@@ -145,7 +163,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_info_widget.setLayout(self.right_info_layout)
 
         self.left_info_head = QtWidgets.QTextBrowser()
-        self.left_info_head.setFixedSize(850, 100)
+        # self.left_info_head.setFixedSize(850, 100)
         self.left_info_label = QLabel("操作信息")
         self.left_info_label.setStyleSheet(
             """
@@ -187,7 +205,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_bar_layout = QtWidgets.QGridLayout()
         self.right_bar_widget.setLayout(self.right_bar_layout)
         self.search_icon = QtWidgets.QPushButton(qtawesome.icon('mdi.find-replace', color='black'), "搜索")
-        self.search_icon.setIconSize(QtCore.QSize(30, 30))
+        self.search_icon.setIconSize(QtCore.QSize(40, 40))
         self.right_bar_widget_search_input = QtWidgets.QLineEdit()
         self.right_bar_widget_search_input.setPlaceholderText('输入内容，回车进行搜索')
         self.right_bar_layout.addWidget(self.search_icon, 0, 0, 1, 1)
@@ -195,12 +213,130 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_bar_layout.addWidget(self.right_bar_widget_search_input, 0, 1, 1, 8)
         self.right_layout.addWidget(self.right_bar_widget, 0, 0, 1, 9)
 
+        self.right_bar_widget_search_input.returnPressed.connect(self.search_by_baidu)
+
+    def search_by_baidu(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://www.baidu.com/'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(1)
+        # 找到输入框
+        shuru = driver.find_element_by_id('kw')
+        # 在输入框中放搜索内容
+
+        shuru.send_keys(self.right_bar_widget_search_input.text())
+        time.sleep(1)
+
+        # 找到百度一下按钮
+        sousuo = driver.find_element_by_id('su')
+        # 点击某个对象（点击百度一下）
+        sousuo.click()
+        time.sleep(10)
+
+    def p1_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://www.zhihu.com/question/31871888/answer/1301925317'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p2_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://www.cnblogs.com/tianxia2s/p/8735079.html'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p3_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://zhuanlan.zhihu.com/p/52208681'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p4_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = r'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p5_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p6_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p7_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://github.com/Dominique-Yiu/cryptology_exp'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p8_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://www.hnu.edu.cn/'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
+    def p9_event(self):
+        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        driver = webdriver.Chrome(executable_path=chrome_driver)
+        url = 'https://stackoverflow.com/'
+        # 访问
+        driver.get(url)
+        # 最大化窗口
+        driver.maximize_window()
+        time.sleep(10)
+
     def exp_bar(self):
         self.tab = TabDemo()
         self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
+<<<<<<< HEAD
         self.setFixedSize(1100, 800)
+=======
+        self.setFixedSize(1200, 900)
+>>>>>>> Dominique-Yiu/master
 
         self.init_left()
         self.init_right()
@@ -211,7 +347,10 @@ class MainUi(QtWidgets.QMainWindow):
         self.setCentralWidget(self.main_widget)
 
         self.decorate()
-        self.left_visit.clicked.connect(self.click_even)
+        self.left_visit.released.connect(self.click_even)
+        self.left_visit.pressed.connect(self.click_even_2)
+
+        self.setWindowIcon(QtGui.QIcon(qtawesome.icon('mdi.steam', color='white')))
 
         self.setWindowIcon(QtGui.QIcon(qtawesome.icon('mdi.steam', color='white')))
 
@@ -234,11 +373,11 @@ class MainUi(QtWidgets.QMainWindow):
         QPushButton:hover{background:red;}''')
         self.left_widget.setStyleSheet(
             '''
-                QPushButton{border:none;color:white;font-size:14px;font-family:"华文中宋";}
+                QPushButton{border:none;color:white;font-size:16px;font-family:"华文中宋";}
                 QPushButton#left_label{
                     border:none;
                     border-bottom:1px solid white;
-                    font-size:20px;
+                    font-size:22px;
                     font-weight:700;
                     font-family:"华文中宋";
                 }
@@ -374,9 +513,12 @@ class MainUi(QtWidgets.QMainWindow):
     def click_Decrypt(self):
         raise NotImplementedError
 
+<<<<<<< HEAD
     def send_Show_msg(self, msg):
         self.left_info_head.append(msg)
         self.left_info_head.moveCursor(QtGui.QTextCursor.End)
+=======
+>>>>>>> Dominique-Yiu/master
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
