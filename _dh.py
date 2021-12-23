@@ -56,8 +56,6 @@ class ex_DH():
         # 对消息进行签名验证
         h = MD5.new(message.encode(encoding='utf-8'))
         verifier = PKCS1_v1_5.new(self.public_key)
-        #ss=base64.b64encode(verifier)
-        #(ss)
         if verifier.verify(h, signature):
             print("OK")
         else:
