@@ -2,8 +2,6 @@ import base64
 import threading
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow
-import jiemian
 import socket
 import sys
 import binascii
@@ -11,7 +9,6 @@ import crypto
 import _dh
 import datetime
 import UI
-from tapUI import TabDemo
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
