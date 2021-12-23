@@ -332,11 +332,9 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
-<<<<<<< HEAD
-        self.setFixedSize(1100, 800)
-=======
+
         self.setFixedSize(1200, 900)
->>>>>>> Dominique-Yiu/master
+
 
         self.init_left()
         self.init_right()
@@ -513,12 +511,9 @@ class MainUi(QtWidgets.QMainWindow):
     def click_Decrypt(self):
         raise NotImplementedError
 
-<<<<<<< HEAD
     def send_Show_msg(self, msg):
         self.left_info_head.append(msg)
         self.left_info_head.moveCursor(QtGui.QTextCursor.End)
-=======
->>>>>>> Dominique-Yiu/master
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
