@@ -220,16 +220,16 @@ class udp_logic(UI.MainUi):
     # 加密控件的实现
     def click_Encrypt(self):
         print(1)
-        self.send_Show_msg('x')
-        # key = self.Edit_key.toPlainText()
-        # p = self.Plaintext.toPlainText()
-        # if self.Enc_mode1.currentIndex() == 0:
-        #     test = crypto.Radiate()
-        #     self.tab.pushbutton_1.text()
-        #     self.tab.comboBox.currentIndex()
-        #     TextCipher = test.encryption(p.encode(), key.encode())
-        #     self.Ciphertext.setPlainText(TextCipher)
-        #     self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射加密成功!')
+        self.send_Show_msg('1')
+        key = self.tab.passwd_text_3.toPlainText()
+        p = self.tab.passwd_text_1.toPlainText()
+        if self.tab.pushbutton_1.text() == '仿射加密':
+            test = crypto.Radiate()
+            TextPlain = test.decryption(p.encode(), key.encode())
+            print(TextPlain)
+            self.send_Show_msg(TextPlain)
+            self.tab.passwd_text_2.setPlainText(TextPlain)
+            self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射解密成功!')
         # if self.Enc_mode1.currentIndex() == 1:
         #     if self.Enc_mode2.currentIndex() == 1:
         #         test = crypto.cypto_LFSR(key)
@@ -266,12 +266,12 @@ class udp_logic(UI.MainUi):
 
     # 解密控件的实现
     def click_Decrypt(self):
-        key = self.Edit_key.toPlainText()
-        p = self.Ciphertext.toPlainText()
-        if self.Enc_mode1.currentIndex() == 0:
+        key = self.tab.passwd_text_3.toPlainText()
+        p = self.tab.passwd_text_1.toPlainText()
+        if self.tab.pushbutton_1.currentIndex() == 0:
             test = crypto.Radiate()
             TextPlain = test.decryption(p.encode(), key.encode())
-            self.Plaintext.setPlainText(TextPlain)
+            self.tab.passwd_text_2.setPlainText(TextPlain)
             self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射解密成功!')
         if self.Enc_mode1.currentIndex() == 1:
             if self.Enc_mode2.currentIndex() == 1:
