@@ -279,9 +279,9 @@ class TabDemo(QTabWidget):
         self.clear_2.setFixedSize(80, 40)
         self.clear_3.setFixedSize(80, 40)
 
-        self.passwd_text_1 = QtWidgets.QTextEdit()
-        self.passwd_text_2 = QtWidgets.QTextEdit()
-        self.passwd_text_3 = QtWidgets.QTextEdit()
+        self.passwd_text_1 = QtWidgets.QPlainTextEdit()
+        self.passwd_text_2 = QtWidgets.QPlainTextEdit()
+        self.passwd_text_3 = QtWidgets.QPlainTextEdit()
         self.passwd_1.setIconSize(QtCore.QSize(20, 20))
         self.passwd_2.setIconSize(QtCore.QSize(20, 20))
         self.passwd_3.setIconSize(QtCore.QSize(20, 20))

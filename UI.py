@@ -216,7 +216,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_bar_widget_search_input.returnPressed.connect(self.search_by_baidu)
 
     def search_by_baidu(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://www.baidu.com/'
         # 访问
@@ -238,7 +238,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p1_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://www.zhihu.com/question/31871888/answer/1301925317'
         # 访问
@@ -248,7 +248,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p2_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://www.cnblogs.com/tianxia2s/p/8735079.html'
         # 访问
@@ -258,7 +258,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p3_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://zhuanlan.zhihu.com/p/52208681'
         # 访问
@@ -268,7 +268,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p4_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = r'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
         # 访问
@@ -278,7 +278,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p5_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
         # 访问
@@ -288,7 +288,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p6_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
         # 访问
@@ -298,7 +298,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p7_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://github.com/Dominique-Yiu/cryptology_exp'
         # 访问
@@ -308,7 +308,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p8_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://www.hnu.edu.cn/'
         # 访问
@@ -318,7 +318,7 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p9_event(self):
-        chrome_driver = r"C:\Users\Mr.yao\anaconda3\envs\pythonProject1\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+        chrome_driver = r"./chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://stackoverflow.com/'
         # 访问
@@ -474,8 +474,14 @@ class MainUi(QtWidgets.QMainWindow):
         self.tab.tap4_bottom_buttom_1.clicked.connect(self.click_RSA_sign)
         # 发送消息
         self.tab.tap4_bottom_buttom_2.clicked.connect(self.click_Send_msg)
-        # 清空
-        self.tab.tap2_bottom_pushbutton_3.clicked.connect(self.click_Plain_clear)
+        # 清空 1
+        self.tab.clear_1.clicked.connect(self.click_Plain_clear)
+        # 清空 2
+        self.tab.clear_2.clicked.connect(self.click_Cipher_clear)
+        # 清空 3
+        self.tab.clear_3.clicked.connect(self.click_Setting_clear)
+        # 清空 4
+        self.tab.tap2_bottom_pushbutton_3.clicked.connect(self.click_All_clear)
         # 加密
         self.tab.tap2_bottom_pushbutton_1.clicked.connect(self.click_Encrypt)
         # 解密
@@ -503,6 +509,12 @@ class MainUi(QtWidgets.QMainWindow):
         raise NotImplementedError
 
     def click_Cipher_clear(self):
+        raise NotImplementedError
+
+    def click_Setting_clear(self):
+        raise NotImplementedError
+
+    def click_All_clear(self):
         raise NotImplementedError
 
     def click_Encrypt(self):
