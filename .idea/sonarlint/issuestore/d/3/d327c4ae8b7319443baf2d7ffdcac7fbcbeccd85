@@ -1,0 +1,55 @@
+
+npython:S116m"WRename this field "label_Share_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(â‹ÚÂ
+npython:S116-"WRename this field "label_Send_port" to match the regular expression ^[_a-z][_a-z0-9]*$.(Ïö°Ã
+opython:S116©"WRename this field "label_Plaintext" to match the regular expression ^[_a-z][_a-z0-9]*$.(Òò…¯
+ipython:S116¬"QRename this field "Plaintext" to match the regular expression ^[_a-z][_a-z0-9]*$.(‰ğô†
+kpython:S116*"ORename this field "Send_ip" to match the regular expression ^[_a-z][_a-z0-9]*$.(•­ûùşÿÿÿÿ
+npython:S116¢"VRename this field "label_Edit_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(Ó©Å„
+npython:S116–"VRename this field "label_Enc_mode" to match the regular expression ^[_a-z][_a-z0-9]*$.(îÍš³
+jpython:S116N"NRename this field "On_net" to match the regular expression ^[_a-z][_a-z0-9]*$.(È›¼˜ÿÿÿÿÿ
+gpython:S116"PRename this field "groupBox" to match the regular expression ^[_a-z][_a-z0-9]*$.(ŸñÀ
+lpython:S116B"URename this field "label_Recv_ip" to match the regular expression ^[_a-z][_a-z0-9]*$.(”áèø
+ipython:S116™"QRename this field "Enc_mode1" to match the regular expression ^[_a-z][_a-z0-9]*$.(½×‚¼
+hpython:S116…"PRename this field "RSA_sign" to match the regular expression ^[_a-z][_a-z0-9]*$.(íıœœ
+lpython:S116z"PRename this field "Net_send" to match the regular expression ^[_a-z][_a-z0-9]*$.(œñõûÿÿÿÿ
+mpython:S116Ö"PRename this field "Show_msg" to match the regular expression ^[_a-z][_a-z0-9]*$.(ÒŞœûÿÿÿÿ
+mpython:S116¥"PRename this field "Edit_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(‰ÎÖÓùÿÿÿÿ
+ppython:S116°"SRename this field "Plain_clear" to match the regular expression ^[_a-z][_a-z0-9]*$.(¾·¦ªıÿÿÿÿ
+opython:S116“"RRename this field "groupBox_4" to match the regular expression ^[_a-z][_a-z0-9]*$.( âÎÃúÿÿÿÿ
+kpython:S116U"ORename this field "Off_net" to match the regular expression ^[_a-z][_a-z0-9]*$.(ûğå†ùÿÿÿÿ
+hpython:S116\"RRename this field "groupBox_2" to match the regular expression ^[_a-z][_a-z0-9]*$.(æ½Ü'
+ipython:S116f"RRename this field "Change_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(Äµˆí
+opython:S116¹"RRename this field "Ciphertext" to match the regular expression ^[_a-z][_a-z0-9]*$.(›¤¨Õøÿÿÿÿ
+gpython:S116Ã"ORename this field "Encrypt" to match the regular expression ^[_a-z][_a-z0-9]*$.(û‹õ
+mpython:S116K"QRename this field "Recv_port" to match the regular expression ^[_a-z][_a-z0-9]*$.(²²Øûÿÿÿÿ
+lpython:S116Ê"ORename this field "Decrypt" to match the regular expression ^[_a-z][_a-z0-9]*$.(ñ‹ŞÆøÿÿÿÿ
+mpython:S116~"VRename this field "label_Recv_msg" to match the regular expression ^[_a-z][_a-z0-9]*$.( ¶ÏÛ
+rpython:S116w"VRename this field "label_Send_msg" to match the regular expression ^[_a-z][_a-z0-9]*$.(ùÒ¥¥şÿÿÿÿ
+hpython:S116Œ"PRename this field "Send_msg" to match the regular expression ^[_a-z][_a-z0-9]*$.(ÜóÊÖ
+npython:S116H"WRename this field "label_Recv_port" to match the regular expression ^[_a-z][_a-z0-9]*$.(ã¨÷
+npython:S116"QRename this field "Enc_mode2" to match the regular expression ^[_a-z][_a-z0-9]*$.(°ú‹—ûÿÿÿÿ
+epython:S116E"ORename this field "Recv_ip" to match the regular expression ^[_a-z][_a-z0-9]*$.(Î½´j
+jpython:S116_"NRename this field "PP_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(‹¥‡ùÿÿÿÿ
+mpython:S116p"QRename this field "Share_key" to match the regular expression ^[_a-z][_a-z0-9]*$.(éÀê¡ıÿÿÿÿ
+qpython:S116'"URename this field "label_Send_ip" to match the regular expression ^[_a-z][_a-z0-9]*$.(Ûñ€›øÿÿÿÿ
+mpython:S1160"QRename this field "Send_port" to match the regular expression ^[_a-z][_a-z0-9]*$.(Î«òÄùÿÿÿÿ
+npython:S116t"RRename this field "groupBox_3" to match the regular expression ^[_a-z][_a-z0-9]*$.(²îƒÌûÿÿÿÿ
+jpython:S116Ó"RRename this field "groupBox_5" to match the regular expression ^[_a-z][_a-z0-9]*$.(Ä¦ò¨
+hpython:S116"PRename this field "Net_recv" to match the regular expression ^[_a-z][_a-z0-9]*$.(»øªĞ
+lpython:S116½"TRename this field "Cipher_clear" to match the regular expression ^[_a-z][_a-z0-9]*$.(ÎÎ„İ
+ƒpython:S101"gRename class "Ui_MainWindow" to match the regular expression ^_?([A-Z_][a-zA-Z0-9]*|[a-z_][a-z0-9_]*)$.( Ìñıùÿÿÿÿ
+rpython:S117"VRename this parameter "MainWindow" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÂéÇ´ÿÿÿÿÿ
+gpython:S100"KRename method "setupUi" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÂéÇ´ÿÿÿÿÿ
+spython:S117ç"VRename this parameter "MainWindow" to match the regular expression ^[_a-z][a-z0-9_]*$.(”«Àşÿÿÿÿ
+npython:S100ç"QRename method "retranslateUi" to match the regular expression ^[a-z_][a-z0-9_]*$.(”«Àşÿÿÿÿ
+mpython:S100™"PRename method "click_On_net" to match the regular expression ^[a-z_][a-z0-9_]*$.(àìÁßüÿÿÿÿ
+ipython:S100œ"QRename method "click_Off_net" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÓØ§ü
+gpython:S100Ÿ"PRename method "click_PP_key" to match the regular expression ^[a-z_][a-z0-9_]*$.(®€ÿS
+lpython:S100¢"TRename method "click_Change_key" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÖÀÆÏ
+jpython:S100¥"RRename method "click_RSA_sign" to match the regular expression ^[a-z_][a-z0-9_]*$.(”ÇŸÚ
+jpython:S100¨"RRename method "click_Send_msg" to match the regular expression ^[a-z_][a-z0-9_]*$.(²ğôÚ
+mpython:S100«"URename method "click_Plain_clear" to match the regular expression ^[a-z_][a-z0-9_]*$.(¼¥ª‚
+npython:S100®"VRename method "click_Cipher_clear" to match the regular expression ^[a-z_][a-z0-9_]*$.(³¢¸ª
+npython:S100±"QRename method "click_Encrypt" to match the regular expression ^[a-z_][a-z0-9_]*$.(Á…èıÿÿÿÿ
+npython:S100´"QRename method "click_Decrypt" to match the regular expression ^[a-z_][a-z0-9_]*$.(¡Ê‚úÿÿÿÿ
+npython:S100Æ"QRename method "send_Show_msg" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÄÎ¾ïıÿÿÿÿ

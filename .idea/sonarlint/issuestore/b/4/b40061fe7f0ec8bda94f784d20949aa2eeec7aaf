@@ -1,0 +1,20 @@
+
+qpython:S1192Ò"SDefine a constant instead of duplicating this literal '%Y-%m-%d %H:%M:%S' 12 times.(®©ùÿÿÿÿ
+Hpython:S1066ë"/Merge this if statement with the enclosing one.(öã¼€
+Hpython:S1066—"/Merge this if statement with the enclosing one.(öã¼€
+…python:S1845|"hRename field "Share_key" to prevent any misunderstanding/clash with field "share_key" defined on line 32(ıÈêÚûÿÿÿÿ
+Bpython:S1481)"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ
+Bpython:S14817"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ
+?python:S1481I"'Remove the unused local variable "ret".(•Ğš
+4python:S2772L"Remove this unneeded "pass".(ã‘Û¾
+Cpython:S1481‘"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ
+Cpython:S1481]"&Remove the unused local variable "s4".(õØÓ—şÿÿÿÿ
+lpython:S3776O"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(¼é“ 
+Hpython:S5806["+Rename this variable; it shadows a builtin.(×Çúÿÿÿÿ
+;python:S125p"Remove this commented out code.(ûüĞØúÿÿÿÿ
+<python:S125³"Remove this commented out code.(ûüĞØúÿÿÿÿ
+spython:S117Ğ"[Rename this local variable "TextCipher" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÉƒŸß
+rpython:S117Ö"ZRename this local variable "TextPlain" to match the regular expression ^[_a-z][a-z0-9_]*$.(‘à ø
+rpython:S3776Ë"TRefactor this function to reduce its Cognitive Complexity from 21 to the 15 allowed.(Á…èıÿÿÿÿ
+rpython:S117û"ZRename this local variable "TextPlain" to match the regular expression ^[_a-z][a-z0-9_]*$.(­š‘¥
+rpython:S3776ö"TRefactor this function to reduce its Cognitive Complexity from 17 to the 15 allowed.(¡Ê‚úÿÿÿÿ
