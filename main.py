@@ -219,46 +219,50 @@ class udp_logic(UI.MainUi):
 
     # 加密控件的实现
     def click_Encrypt(self):
-        key = self.Edit_key.toPlainText()
-        p = self.Plaintext.toPlainText()
-        if self.Enc_mode1.currentIndex() == 0:
-            test = crypto.Radiate()
-            TextCipher = test.encryption(p.encode(), key.encode())
-            self.Ciphertext.setPlainText(TextCipher)
-            self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射加密成功!')
-        if self.Enc_mode1.currentIndex() == 1:
-            if self.Enc_mode2.currentIndex() == 1:
-                test = crypto.cypto_LFSR(key)
-                TextPlain = test.do_crypt(p.encode())
-                TextPlain = base64.b64encode(TextPlain)
-                self.Ciphertext.setPlainText(TextPlain.decode())
-                self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：LSFR+J-K加密成功!')
-            if self.Enc_mode2.currentIndex() == 0:
-                test = crypto.RC4(key.encode())
-                TextPlain = test.do_crypt(p.encode())
-                self.Ciphertext.setPlainText(TextPlain.decode())
-                self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RC4加密成功!')
-        if self.Enc_mode1.currentIndex() == 2:
-            if self.Enc_mode2.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode(), key.encode())
-                TextCipher = test.encrypt(p.encode())
-                self.Ciphertext.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
-                self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES加密成功!')
-            if self.Enc_mode2.currentIndex() == 1:
-                test = crypto.aes_crypto(key.encode())
-                TextCipher = test.encrypt(p.encode())
-                self.Ciphertext.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
-                self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES加密成功!')
-        if self.Enc_mode1.currentIndex() == 3:
-            if self.Enc_mode2.currentIndex() == 0:
-                test = crypto.RSA()
-                TextCipher = test.Encrypt(p)
-                msg = ''
-                for i in TextCipher:
-                    if i != 0:
-                        msg += str(hex(i))[2:10] + ' '
-                self.Ciphertext.setPlainText(msg)
-                self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RSA加密成功!')
+        print(1)
+        self.send_Show_msg('x')
+        # key = self.Edit_key.toPlainText()
+        # p = self.Plaintext.toPlainText()
+        # if self.Enc_mode1.currentIndex() == 0:
+        #     test = crypto.Radiate()
+        #     self.tab.pushbutton_1.text()
+        #     self.tab.comboBox.currentIndex()
+        #     TextCipher = test.encryption(p.encode(), key.encode())
+        #     self.Ciphertext.setPlainText(TextCipher)
+        #     self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射加密成功!')
+        # if self.Enc_mode1.currentIndex() == 1:
+        #     if self.Enc_mode2.currentIndex() == 1:
+        #         test = crypto.cypto_LFSR(key)
+        #         TextPlain = test.do_crypt(p.encode())
+        #         TextPlain = base64.b64encode(TextPlain)
+        #         self.Ciphertext.setPlainText(TextPlain.decode())
+        #         self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：LSFR+J-K加密成功!')
+        #     if self.Enc_mode2.currentIndex() == 0:
+        #         test = crypto.RC4(key.encode())
+        #         TextPlain = test.do_crypt(p.encode())
+        #         self.Ciphertext.setPlainText(TextPlain.decode())
+        #         self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RC4加密成功!')
+        # if self.Enc_mode1.currentIndex() == 2:
+        #     if self.Enc_mode2.currentIndex() == 0:
+        #         test = crypto.des_crypto(key.encode(), key.encode())
+        #         TextCipher = test.encrypt(p.encode())
+        #         self.Ciphertext.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
+        #         self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES加密成功!')
+        #     if self.Enc_mode2.currentIndex() == 1:
+        #         test = crypto.aes_crypto(key.encode())
+        #         TextCipher = test.encrypt(p.encode())
+        #         self.Ciphertext.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
+        #         self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES加密成功!')
+        # if self.Enc_mode1.currentIndex() == 3:
+        #     if self.Enc_mode2.currentIndex() == 0:
+        #         test = crypto.RSA()
+        #         TextCipher = test.Encrypt(p)
+        #         msg = ''
+        #         for i in TextCipher:
+        #             if i != 0:
+        #                 msg += str(hex(i))[2:10] + ' '
+        #         self.Ciphertext.setPlainText(msg)
+        #         self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RSA加密成功!')
 
     # 解密控件的实现
     def click_Decrypt(self):
