@@ -506,7 +506,6 @@ class MainUi(QtWidgets.QMainWindow):
         raise NotImplementedError
 
     def click_Encrypt(self):
-        self.send_Show_msg('1')
         raise NotImplementedError
 
     def click_Decrypt(self):
