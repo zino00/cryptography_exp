@@ -242,7 +242,7 @@ class udp_logic(UI.MainUi):
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RC4加密成功!')
         elif self.tab.pushbutton_1.text() == '对称加密':
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode(), key.encode())
+                test = crypto.des_crypto(key.encode())
                 TextCipher = test.encrypt(p.encode())
                 self.tab.passwd_text_2.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES加密成功!')
