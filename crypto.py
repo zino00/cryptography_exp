@@ -167,13 +167,13 @@ from Crypto.Cipher import DES
 # 分组密码
 class des_crypto:
 
-    def __init__(self, Key, iv):
+    def __init__(self, Key):
         self.key = Key
-        self.iv = iv
-        self.mode = DES.MODE_CBC
+        # self.iv = iv
+        self.mode = DES.MODE_CBC #改为可修改
 
     def encrypt(self, decryptText):
-        cipher1 = DES.new(self.key, self.mode, self.iv)
+        cipher1 = DES.new(self.key, self.mode,self.key)
         # 分组补全
         length = 8
         TextNum = len(decryptText)
