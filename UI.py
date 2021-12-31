@@ -486,6 +486,36 @@ class MainUi(QtWidgets.QMainWindow):
         self.tab.tap2_bottom_pushbutton_1.clicked.connect(self.click_Encrypt)
         # 解密
         self.tab.tap2_bottom_pushbutton_2.clicked.connect(self.click_Decrypt)
+        # 清除服务端
+        self.tab.tab5Button_1.clicked.connect(self.remove_serverText)
+        # 清除客户端
+        self.tab.tab5Button_3.clicked.connect(self.remove_ClientText)
+        # 发送给客户端
+        self.tab.tab5Button_2.clicked.connect(self.sendToClient)
+        # 发送给服务端
+        self.tab.tab5Button_4.clicked.connect(self.sendToServer)
+        # 启动服务端
+        self.tab.tab5Button_5.clicked.connect(self.start_server)
+        # 启动客户端
+        self.tab.tab5Button_6.clicked.connect(self.start_client)
+
+    def start_server(self):
+        raise NotImplementedError
+
+    def start_client(self):
+        raise NotImplementedError
+
+    def remove_serverText(self):
+        raise NotImplementedError
+
+    def remove_ClientText(self):
+        raise NotImplementedError
+
+    def sendToClient(self):
+        raise NotImplementedError
+
+    def sendToServer(self):
+        raise NotImplementedError
 
     def click_On_net(self):
         raise NotImplementedError

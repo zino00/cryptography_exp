@@ -12,6 +12,8 @@ import UI
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
+from openssl_client import client
+from openssl_server import server
 
 
 class udp_logic(UI.MainUi):
@@ -32,6 +34,30 @@ class udp_logic(UI.MainUi):
         self.recv_YB = None
         self.share_key = None
         self.send_msg = None
+
+    def start_server(self):
+        Ser = server()
+        Ser.start()
+
+    def start_client(self):
+        Cli = client()
+        Cli.start()
+
+    def remove_serverText(self):
+        # 补充
+        pass
+
+    def remove_ClientText(self):
+        # 补充
+        pass
+
+    def sendToClient(self):
+        # 补充
+        pass
+
+    def sendToServer(self):
+        # 补充
+        pass
 
     # 实现连接网络的控件，生产子线程监听端口
     def click_On_net(self):
