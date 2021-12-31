@@ -12,9 +12,9 @@ import UI
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
-from openssl_client import client
-from openssl_server import server
-
+from OpenSSL import SSL
+import ssl
+import pprint
 
 class udp_logic(UI.MainUi):
     def __init__(self):
@@ -34,30 +34,16 @@ class udp_logic(UI.MainUi):
         self.recv_YB = None
         self.share_key = None
         self.send_msg = None
+        self.ssl_client_socket =None
+        self.ssl_server_socket =None
+        self.send_flag = None
 
-    def start_server(self):
-        Ser = server()
-        Ser.start()
-
-    def start_client(self):
-        Cli = client()
-        Cli.start()
-
-    def remove_serverText(self):
-        # 补充
-        pass
-
-    def remove_ClientText(self):
-        # 补充
-        pass
-
-    def sendToClient(self):
-        # 补充
-        pass
-
-    def sendToServer(self):
-        # 补充
-        pass
+        self.ssl_client_socket = None
+        self.ssl_server_socket = None
+        self.ssl_connect_sock = None
+        self.ssl_address = None
+        self.ssl_server_thread = None
+        self.ssl_client_thread = None
 
     # 实现连接网络的控件，生产子线程监听端口
     def click_On_net(self):
@@ -66,7 +52,7 @@ class udp_logic(UI.MainUi):
         self.udp_clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             self.sendaddress = (str(self.tab.tap1_read_line.text()), int(self.tab.tap1_read_line_1.text()))
-        except Exception as e:
+        except Exception:
             msg = '发送端设置异常,请检查目标IP，目标端口\n'
             self.send_Show_msg(msg)
         else:
@@ -80,7 +66,7 @@ class udp_logic(UI.MainUi):
             self.udp_serversocket.bind(self.recvaddress)
             # 启动接收线程
 
-        except Exception as e:
+        except Exception:
             msg = '接收端设置异常，请检查目标端口\n'
             self.send_Show_msg(msg)
         else:
@@ -314,7 +300,7 @@ class udp_logic(UI.MainUi):
         elif self.tab.pushbutton_1.text() == "对称加密":
             p = bytes().fromhex(p)
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode(), key.encode())
+                test = crypto.des_crypto(key.encode())
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES解密成功!')
@@ -337,6 +323,79 @@ class udp_logic(UI.MainUi):
         else:
             self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：请选择加密方式!')
 
+    def ssl_start_server(self):
+        self.ssl_server_thread = threading.Thread(target=self.ssl_server_recv)
+        self.ssl_server_thread.start()
+        msg = "服务器正在监听端口"
+        self.send_Show_msg(msg)
+        print(msg)
+
+    def ssl_start_client(self):
+        self.ssl_client_thread = threading.Thread(target=self.ssl_client_recv)
+        self.ssl_client_thread.start()
+
+    def ssl_server_send(self):
+        text = self.tab.tab5TextEdit_1.toPlainText()
+        self.ssl_server_socket.sendall(text.encode())  # 回馈信息给客户端
+
+    def ssl_client_send(self):
+        inp = self.tab.tab5TextEdit_2.toPlainText()
+        self.ssl_client_socket.sendall(inp.encode())
+
+    def ssl_server_recv(self):
+        ip_port = ('127.0.0.1', 9999)
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS)  # 创建了一个 SSL上下文,ssl.PROTOCOL_TLS表示选择客户端和服务器均支持的最高协议版本
+        context.load_cert_chain(certfile="server.crt", keyfile="server.key")  # 加载一个私钥及对应的证书
+
+        sk = socket.socket()  # 创建套接字
+        sk.bind(ip_port)  # 绑定服务地址
+        sk.listen(5)  # 监听连接请求
+
+        msg = '#服务端消息#：启动socket服务，等待客户端连接...'
+        self.send_Show_msg(msg)
+        print(msg)
+        self.ssl_connect_sock, self.ssl_address = sk.accept()  # 等待连接，此处自动阻塞
+        # 包装一个现有的 Python socket,并返回一个ssl socket,server_side为true表示为服务器行为，默认为false则表示客户端
+        self.ssl_server_socket = context.wrap_socket(self.ssl_connect_sock, server_side=True)
+        while True:  # 一个死循环
+            client_data = self.ssl_server_socket.recv(1024).decode()  # 接收信息
+            self.tab.tab5TextEdit_1.clear()
+            self.tab.tab5TextEdit_1.appendPlainText(client_data)
+            msg = "#服务端消息#：收到来自%s的客户端发来的信息:%s" % (self.ssl_address, client_data)
+            self.send_Show_msg(msg)
+
+    def ssl_client_recv(self):
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS)  # 创建了一个 SSL上下文,ssl.PROTOCOL_TLS表示选择客户端和服务器均支持的最高协议版本
+        context.verify_mode = ssl.CERT_REQUIRED  # 设置模式为CERT_REQUIRED，在此模式下，需要从套接字连接的另一端获取证书；如果未提供证书或验证失败则将引发 SSLError
+        context.load_verify_locations("ca.crt")  # 加载一组用于验证其他对等方证书的CA证书
+
+        ip_port = ('127.0.0.1', 9999)  # 设置端口
+        s = socket.socket()  # 创建套接字
+        # 包装一个现有的 Python 套接字 sock 并返回一个 SSLContext.sslsocket_class 的实例 (默认为 SSLSocket)。
+        self.ssl_client_socket = context.wrap_socket(s, server_hostname='127.0.0.1')  # 返回的 SSL 套接字会绑定上下文、设置以及证书
+
+        self.ssl_client_socket.connect(ip_port)  # 连接服务器
+        msg = '#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下,请输入要发送的消息'  # 输出证书信息
+        self.send_Show_msg(msg)
+        print('#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下')
+        # cert = None
+        pprint.pprint(self.ssl_client_socket.getpeercert())
+        # print(type(self.ssl_client_socket.getpeercert()))
+        # print(cert)
+        # self.send_Show_msg(cert)
+        while True:  # 一个死循环
+            server_data = self.ssl_client_socket.recv(1024).decode()  # 接收信息
+            self.tab.tab5TextEdit_2.clear()
+            self.tab.tab5TextEdit_2.appendPlainText(server_data)
+            msg = "#客户端消息#：收到来自%s的服务端发来的信息:%s" % (ip_port, server_data)
+            self.send_Show_msg(msg)
+
+    def remove_serverText(self):
+        self.tab.tab5TextEdit_1.clear()
+
+    def remove_ClientText(self):
+        self.tab.tab5TextEdit_2.clear()
+
     def click_Plain_clear(self):
         self.tab.passwd_text_1.clear()
 
@@ -351,7 +410,14 @@ class udp_logic(UI.MainUi):
         self.tab.passwd_text_2.clear()
         self.tab.passwd_text_3.clear()
 
+    def remove_serverText(self):
+        self.tab.tab5TextEdit_1.clear()
+
+    def remove_ClientText(self):
+        self.tab.tab5TextEdit_2.clear()
+
 def main():
+
     app = QtWidgets.QApplication(sys.argv)
     gui = udp_logic()
     gui.show()
@@ -359,4 +425,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
