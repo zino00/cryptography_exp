@@ -39,7 +39,6 @@ from selenium import webdriver
 import time
 
 
-
 class MainUi(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainUi, self).__init__()
@@ -332,9 +331,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_layout.addWidget(self.tab, 1, 0, 15, 9)
 
     def init_ui(self):
-
         self.setFixedSize(1200, 900)
-
 
         self.init_left()
         self.init_right()
@@ -527,6 +524,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.left_info_head.append(msg)
         self.left_info_head.moveCursor(QtGui.QTextCursor.End)
 
+
 def main():
     app = QtWidgets.QApplication(sys.argv)
     gui = MainUi()
@@ -536,6 +534,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-

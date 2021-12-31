@@ -12,6 +12,7 @@ import UI
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
+from OpenSSL import SSL
 
 
 class udp_logic(UI.MainUi):
@@ -33,6 +34,10 @@ class udp_logic(UI.MainUi):
         self.share_key = None
         self.send_msg = None
 
+    def click_ssl_start(self):
+        ssl = SSL()
+        ssl.start_connect()
+
     # 实现连接网络的控件，生产子线程监听端口
     def click_On_net(self):
         # 作为发送方（客户端）的网络设置
@@ -40,7 +45,7 @@ class udp_logic(UI.MainUi):
         self.udp_clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
             self.sendaddress = (str(self.tab.tap1_read_line.text()), int(self.tab.tap1_read_line_1.text()))
-        except Exception as e:
+        except Exception:
             msg = '发送端设置异常,请检查目标IP，目标端口\n'
             self.send_Show_msg(msg)
         else:
@@ -54,7 +59,7 @@ class udp_logic(UI.MainUi):
             self.udp_serversocket.bind(self.recvaddress)
             # 启动接收线程
 
-        except Exception as e:
+        except Exception:
             msg = '接收端设置异常，请检查目标端口\n'
             self.send_Show_msg(msg)
         else:
@@ -288,7 +293,7 @@ class udp_logic(UI.MainUi):
         elif self.tab.pushbutton_1.text() == "对称加密":
             p = bytes().fromhex(p)
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode(), key.encode())
+                test = crypto.des_crypto(key.encode())
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES解密成功!')
@@ -326,6 +331,7 @@ class udp_logic(UI.MainUi):
         self.tab.passwd_text_3.clear()
 
 def main():
+
     app = QtWidgets.QApplication(sys.argv)
     gui = udp_logic()
     gui.show()
@@ -333,4 +339,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()

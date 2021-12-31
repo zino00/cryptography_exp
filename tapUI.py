@@ -10,6 +10,7 @@ import sys
 import qtawesome
 from PyQt5.QtWidgets import *
 
+
 class TabDemo(QTabWidget):
     def __init__(self, parent=None):
         super(TabDemo, self).__init__(parent)
