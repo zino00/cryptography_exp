@@ -705,7 +705,7 @@ class TabDemo(QTabWidget):
                     font-size:20px;
                     padding-left:-9px;
                     padding-right:-9px;
-                    width:210px;
+                    width:168px;
                     height:40px;
                     margin-left:0px;
                     margin-right:40px;

@@ -488,18 +488,18 @@ class MainUi(QtWidgets.QMainWindow):
         # 清除客户端
         self.tab.tab5Button_3.clicked.connect(self.remove_ClientText)
         # 发送给客户端
-        self.tab.tab5Button_2.clicked.connect(self.sendToClient)
+        self.tab.tab5Button_2.clicked.connect(self.ssl_server_send)
         # 发送给服务端
-        self.tab.tab5Button_4.clicked.connect(self.sendToServer)
+        self.tab.tab5Button_4.clicked.connect(self.ssl_client_send)
         # 启动服务端
-        self.tab.tab5Button_5.clicked.connect(self.start_server)
+        self.tab.tab5Button_5.clicked.connect(self.ssl_start_server)
         # 启动客户端
-        self.tab.tab5Button_6.clicked.connect(self.start_client)
+        self.tab.tab5Button_6.clicked.connect(self.ssl_start_client)
 
-    def start_server(self):
+    def ssl_start_server(self):
         raise NotImplementedError
 
-    def start_client(self):
+    def ssl_start_client(self):
         raise NotImplementedError
 
     def remove_serverText(self):
@@ -508,10 +508,10 @@ class MainUi(QtWidgets.QMainWindow):
     def remove_ClientText(self):
         raise NotImplementedError
 
-    def sendToClient(self):
+    def ssl_server_send(self):
         raise NotImplementedError
 
-    def sendToServer(self):
+    def ssl_client_send(self):
         raise NotImplementedError
 
     def click_On_net(self):
