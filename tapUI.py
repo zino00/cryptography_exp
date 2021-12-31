@@ -523,6 +523,7 @@ class TabDemo(QTabWidget):
         self.tab5Button_6 = QPushButton("启动")
         self.tab5TextEdit_1 = QPlainTextEdit()
         self.tab5TextEdit_2 = QPlainTextEdit()
+        # self.tab5Button_6.pressed()
         self.tab5Label_1.setFixedSize(180, 60)
         self.tab5Label_1.setStyleSheet(
             """
