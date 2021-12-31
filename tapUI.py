@@ -25,13 +25,13 @@ class TabDemo(QTabWidget):
         self.addTab(self.tab1, "Tab 1")
         self.addTab(self.tab3, "Tab 3")
         self.addTab(self.tab4, "Tab 4")
-        # self.addTab(self.tab5, "Tab 5")
+        self.addTab(self.tab5, "Tab 5")
 
         self.tab1UI()
         self.tab2UI()
         self.tab3UI()
         self.tab4UI()
-        # self.tab5UI()
+        self.tab5UI()
 
         self.decorate()
         self.setWindowTitle("Tab 例子")
@@ -502,10 +502,123 @@ class TabDemo(QTabWidget):
         self.tab4.setLayout(main_layout)
 
     def tab5UI(self):
-        layout = QHBoxLayout()
-        layout.addWidget(QTextEdit())
-        self.setTabText(4, "操作信息")
-        self.tab5.setLayout(layout)
+        main_layout = QGridLayout()
+        # left_layout = QGridLayout()
+        # right_layout = QGridLayout()
+        main_widget = QWidget()
+        # left_widget = QWidget()
+        # right_widget = QWidget()
+        main_widget.setLayout(main_layout)
+        # left_widget.setLayout(left_layout)
+        # right_widget.setLayout(right_layout)
+
+        self.tab5Label_1 = QPushButton(qtawesome.icon('msc.server-process', color='black'), "服务端")
+        self.tab5Label_1.setIconSize(QtCore.QSize(35, 35))
+        self.tab5Label_2 = QPushButton(qtawesome.icon('ri.customer-service-2-line', color='black'), "客户端")
+        self.tab5Label_2.setIconSize(QtCore.QSize(35, 35))
+        self.tab5Button_1 = QPushButton("清空")
+        self.tab5Button_2 = QPushButton("发送")
+        self.tab5Button_3 = QPushButton("清空")
+        self.tab5Button_4 = QPushButton("发送")
+        self.tab5Button_5 = QPushButton("启动")
+        self.tab5Button_6 = QPushButton("启动")
+        self.tab5TextEdit_1 = QPlainTextEdit()
+        self.tab5TextEdit_2 = QPlainTextEdit()
+        self.tab5Label_1.setFixedSize(180, 60)
+        self.tab5Label_1.setStyleSheet(
+            """
+                border: none;
+                border-left: 4px solid black;
+                text-align: left;
+                font-size: 22px;
+            """
+        )
+        self.tab5Label_2.setFixedSize(180, 60)
+        self.tab5Label_2.setStyleSheet(
+            """
+                border: none;
+                border-left: 4px solid black;
+                text-align: left;
+                font-size: 22px;
+            """
+        )
+
+        main_layout.addWidget(self.tab5Label_1, 0, 0, 2, 1)
+        main_layout.addWidget(self.tab5Button_1, 0, 1, 2, 1)
+        main_layout.addWidget(self.tab5Button_2, 0, 2, 2, 1)
+        main_layout.addWidget(self.tab5Label_2, 0, 3, 2, 1)
+        main_layout.addWidget(self.tab5Button_3, 0, 4, 2, 1)
+        main_layout.addWidget(self.tab5Button_4, 0, 5, 2, 1)
+        main_layout.addWidget(self.tab5TextEdit_1, 2, 0, 3, 3)
+        main_layout.addWidget(self.tab5TextEdit_2, 2, 3, 3, 3)
+        main_layout.addWidget(self.tab5Button_5, 5, 2, 1, 1)
+        main_layout.addWidget(self.tab5Button_6, 5, 5, 1, 1)
+
+        self.tab5Button_5.setFixedSize(120, 60)
+        self.tab5Button_6.setFixedSize(120, 60)
+        self.tab5Button_1.setFixedSize(120, 60)
+        self.tab5Button_1.setStyleSheet(
+            """
+            QPushButton{
+                color: white;
+                font-size: 22px;
+                background: #b6514f;
+                border: none;
+            }
+            QPushButton:pressed{
+                background: #8f5b11;
+                font-weight: bold;
+            }
+            """
+        )
+        self.tab5Button_2.setFixedSize(120, 60)
+        self.tab5Button_2.setStyleSheet(
+            """
+            QPushButton{
+                color: white;
+                background: #19965a;
+                font-size: 22px;
+                border: none;
+            }
+            QPushButton:pressed{
+                background: #8f5b11;
+                font-weight: bold;
+            }
+            """
+        )
+        self.tab5Button_3.setFixedSize(120, 60)
+        self.tab5Button_3.setStyleSheet(
+            """
+            QPushButton{
+                color: white;
+                font-size: 22px;
+                background: #b6514f;
+                border: none;
+            }
+            QPushButton:pressed{
+                background: #8f5b11;
+                font-weight: bold;
+            }
+            """
+        )
+        self.tab5Button_4.setFixedSize(120, 60)
+        self.tab5Button_4.setStyleSheet(
+            """
+            QPushButton{
+                color: white;
+                background: #19965a;
+                font-size: 22px;
+                border: none;
+            }
+            QPushButton:pressed{
+                background: #8f5b11;
+                font-weight: bold;
+            }
+            """
+        )
+
+        self.setTabText(4, "OpenSSL")
+        self.tab5.setLayout(main_layout)
 
     def decorate(self):
         # self.setTabShape(QTabWidget.TabShape.Triangular)
