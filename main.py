@@ -33,9 +33,6 @@ class udp_logic(UI.MainUi):
         self.recv_YB = None
         self.share_key = None
         self.send_msg = None
-        self.ssl_client_socket =None
-        self.ssl_server_socket =None
-        self.send_flag = None
 
         self.ssl_client_socket = None
         self.ssl_server_socket = None
@@ -167,11 +164,6 @@ class udp_logic(UI.MainUi):
                     self.tab.tap3_right_text.append(msg)
             except Exception as e:
                 break
-<<<<<<< HEAD
-=======
-                # msg = '未知错误'
-                # self.send_Show_msg(msg)
->>>>>>> Dominique-Yiu/master
 
     # 用于通信的发送消息函数的具体实现
     def client_send(self, op, msg):
@@ -424,7 +416,10 @@ class udp_logic(UI.MainUi):
 
     # 关闭线程
     def ssl_end_threading(self):
-        pass
+        self.ssl_server_socket.close()
+        self.ssl_client_socket.close()
+        msg = 'socket已关闭'
+        self.send_Show_msg(msg)
 
 def main():
 
