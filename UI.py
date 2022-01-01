@@ -495,6 +495,11 @@ class MainUi(QtWidgets.QMainWindow):
         self.tab.tab5Button_5.clicked.connect(self.ssl_start_server)
         # 启动客户端
         self.tab.tab5Button_6.clicked.connect(self.ssl_start_client)
+        # 关闭进程
+        self.tab.tab5_Stop.clicked.connect(self.ssl_end_threading)
+
+    def ssl_end_threading(self):
+        raise NotImplementedError
 
     def ssl_start_server(self):
         raise NotImplementedError

@@ -101,7 +101,7 @@ class udp_logic(UI.MainUi):
 
                     aes = crypto.aes_crypto(str(self.share_key)[:16].encode())
                     print(recv_msg)
-                    #self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
+                    # self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
                     s1 = aes.decrypt(recv_msg).decode()  # 原消息aes解密
                     msg = '消息解密成功,开始验证消息签名\n'
                     self.send_Show_msg(msg)
@@ -167,6 +167,11 @@ class udp_logic(UI.MainUi):
                     self.tab.tap3_right_text.append(msg)
             except Exception as e:
                 break
+<<<<<<< HEAD
+=======
+                # msg = '未知错误'
+                # self.send_Show_msg(msg)
+>>>>>>> Dominique-Yiu/master
 
     # 用于通信的发送消息函数的具体实现
     def client_send(self, op, msg):
@@ -233,11 +238,11 @@ class udp_logic(UI.MainUi):
         p = self.tab.passwd_text_1.toPlainText()
         if self.tab.pushbutton_1.text() == '仿射加密':
             test = crypto.Radiate()
-            TextPlain = test.decryption(p.encode(), key.encode())
-            print(TextPlain)
+            TextPlain = test.encryption(p.encode(), key.encode())
+            # print(TextPlain)
             self.send_Show_msg(TextPlain)
             self.tab.passwd_text_2.setPlainText(TextPlain)
-            self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射解密成功!')
+            self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射加密成功!')
         elif self.tab.pushbutton_1.text() == '流密码加密':
             if self.tab.comboBox.currentIndex() == 1:
                 test = crypto.cypto_LFSR(key)
@@ -416,6 +421,10 @@ class udp_logic(UI.MainUi):
 
     def remove_ClientText(self):
         self.tab.tab5TextEdit_2.clear()
+
+    # 关闭线程
+    def ssl_end_threading(self):
+        pass
 
 def main():
 
