@@ -173,7 +173,7 @@ class des_crypto:
         self.mode = DES.MODE_CBC #改为可修改
 
     def encrypt(self, decryptText):
-        cipher1 = DES.new(self.key, self.mode,self.key)
+        cipher1 = DES.new(self.key, self.mode, self.key)
         # 分组补全
         length = 8
         TextNum = len(decryptText)
@@ -183,7 +183,7 @@ class des_crypto:
         return encryptText
 
     def decrypt(self, encryptText):
-        cipher2 = DES.new(self.key, self.mode, self.iv)
+        cipher2 = DES.new(self.key, self.mode, self.key)
         decryptText = cipher2.decrypt(encryptText)
         decryptText = decryptText.rstrip(b'\0')
         return decryptText

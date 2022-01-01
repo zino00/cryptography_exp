@@ -10,6 +10,7 @@ import sys
 import qtawesome
 from PyQt5.QtWidgets import *
 
+
 class TabDemo(QTabWidget):
     def __init__(self, parent=None):
         super(TabDemo, self).__init__(parent)
@@ -521,9 +522,24 @@ class TabDemo(QTabWidget):
         self.tab5Button_4 = QPushButton("发送")
         self.tab5Button_5 = QPushButton("启动")
         self.tab5Button_6 = QPushButton("启动")
+        self.tab5_Stop = QPushButton("停止")
         self.tab5TextEdit_1 = QPlainTextEdit()
         self.tab5TextEdit_2 = QPlainTextEdit()
         # self.tab5Button_6.pressed()
+        self.tab5_Stop.setStyleSheet(
+            """
+                QPushButton{
+                    color: white;
+                    font-size: 24px;
+                    background: #b6514f;
+                    border: none;
+                }
+                QPushButton:pressed{
+                    background: #8f5b11;
+                    font-weight: bold;
+                }
+            """
+        )
         self.tab5Label_1.setFixedSize(180, 60)
         self.tab5Label_1.setStyleSheet(
             """
@@ -551,9 +567,11 @@ class TabDemo(QTabWidget):
         main_layout.addWidget(self.tab5Button_4, 0, 5, 2, 1)
         main_layout.addWidget(self.tab5TextEdit_1, 2, 0, 3, 3)
         main_layout.addWidget(self.tab5TextEdit_2, 2, 3, 3, 3)
-        main_layout.addWidget(self.tab5Button_5, 5, 2, 1, 1)
+        main_layout.addWidget(self.tab5Button_5, 5, 0, 1, 1)
+        main_layout.addWidget(self.tab5_Stop, 5, 2, 1, 1)
         main_layout.addWidget(self.tab5Button_6, 5, 5, 1, 1)
 
+        self.tab5_Stop.setFixedSize(120, 60)
         self.tab5Button_5.setFixedSize(120, 60)
         self.tab5Button_6.setFixedSize(120, 60)
         self.tab5Button_1.setFixedSize(120, 60)
@@ -705,7 +723,7 @@ class TabDemo(QTabWidget):
                     font-size:20px;
                     padding-left:-9px;
                     padding-right:-9px;
-                    width:210px;
+                    width:168px;
                     height:40px;
                     margin-left:0px;
                     margin-right:40px;
