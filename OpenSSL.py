@@ -16,6 +16,7 @@ class SSL(UI.MainUi):
         self.ssl_address = None
         self.ssl_server_thread = None
         self.ssl_client_thread = None
+
     def ssl_start_server(self):
         self.ssl_server_thread = threading.Thread(target=self.ssl_server_recv)
         self.ssl_server_thread.start()

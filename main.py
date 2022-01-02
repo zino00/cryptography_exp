@@ -12,7 +12,6 @@ import UI
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
-from OpenSSL import SSL
 import ssl
 import pprint
 
@@ -34,9 +33,6 @@ class udp_logic(UI.MainUi):
         self.recv_YB = None
         self.share_key = None
         self.send_msg = None
-        self.ssl_client_socket =None
-        self.ssl_server_socket =None
-        self.send_flag = None
 
         self.ssl_client_socket = None
         self.ssl_server_socket = None
@@ -168,8 +164,6 @@ class udp_logic(UI.MainUi):
                     self.tab.tap3_right_text.append(msg)
             except Exception as e:
                 break
-                # msg = '未知错误'
-                # self.send_Show_msg(msg)
 
     # 用于通信的发送消息函数的具体实现
     def client_send(self, op, msg):
@@ -360,6 +354,12 @@ class udp_logic(UI.MainUi):
         self.ssl_server_socket = context.wrap_socket(self.ssl_connect_sock, server_side=True)
         while True:  # 一个死循环
             client_data = self.ssl_server_socket.recv(1024).decode()  # 接收信息
+            if client_data == 'exit':
+                self.ssl_server_socket.sendall(client_data.encode())
+                msg = '服务端线程已关闭'
+                self.send_Show_msg(msg)
+                self.tab.tab5TextEdit_1.clear()
+                break
             self.tab.tab5TextEdit_1.clear()
             self.tab.tab5TextEdit_1.appendPlainText(client_data)
             msg = "#服务端消息#：收到来自%s的客户端发来的信息:%s" % (self.ssl_address, client_data)
@@ -379,23 +379,20 @@ class udp_logic(UI.MainUi):
         msg = '#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下,请输入要发送的消息'  # 输出证书信息
         self.send_Show_msg(msg)
         print('#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下')
-        # cert = None
         pprint.pprint(self.ssl_client_socket.getpeercert())
-        # print(type(self.ssl_client_socket.getpeercert()))
-        # print(cert)
-        # self.send_Show_msg(cert)
+
         while True:  # 一个死循环
             server_data = self.ssl_client_socket.recv(1024).decode()  # 接收信息
+            if server_data == 'exit':
+                self.ssl_client_socket.sendall(server_data.encode())
+                msg = '客户端线程已关闭'
+                self.send_Show_msg(msg)
+                self.tab.tab5TextEdit_2.clear()
+                break
             self.tab.tab5TextEdit_2.clear()
             self.tab.tab5TextEdit_2.appendPlainText(server_data)
             msg = "#客户端消息#：收到来自%s的服务端发来的信息:%s" % (ip_port, server_data)
             self.send_Show_msg(msg)
-
-    def remove_serverText(self):
-        self.tab.tab5TextEdit_1.clear()
-
-    def remove_ClientText(self):
-        self.tab.tab5TextEdit_2.clear()
 
     def click_Plain_clear(self):
         self.tab.passwd_text_1.clear()
@@ -419,7 +416,10 @@ class udp_logic(UI.MainUi):
 
     # 关闭线程
     def ssl_end_threading(self):
-        pass
+        self.ssl_server_socket.close()
+        self.ssl_client_socket.close()
+        msg = 'socket已关闭'
+        self.send_Show_msg(msg)
 
 def main():
 
