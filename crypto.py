@@ -195,6 +195,7 @@ class aes_crypto:
         self.mode = AES.MODE_CBC
 
     def encrypt(self, decryptText):
+
         cipher1 = AES.new(self.key, self.mode, self.key)
         # 分组补全
         length = 16
