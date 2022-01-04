@@ -40,21 +40,30 @@ class TabDemo(QTabWidget):
         self.comboBox.clear()
         self.comboBox.addItem("默认")
         self.pushbutton_1.setText(self.algrithm_1.text())
+
     def Tbutton_2(self):
         self.comboBox.clear()
         self.comboBox.addItem("RC4")
         self.comboBox.addItem("LFSR+J-K触发器")
         self.pushbutton_1.setText(self.algrithm_2.text())
+
     def Tbutton_3(self):
         self.comboBox.clear()
         self.comboBox.addItem("DES")
         self.comboBox.addItem("AES")
         self.pushbutton_1.setText(self.algrithm_3.text())
+        self.comboBox_1.clear()
+        self.comboBox_1.addItem("MODE_ECB")
+        self.comboBox_1.addItem("MODE_CBC")
+        self.comboBox_1.addItem("MODE_CFB")
+        self.comboBox_1.addItem("MODE_OFB")
+        self.comboBox_1.addItem("MODE_OFB")
+        self.comboBox_1.addItem("MODE_CTR")
+
     def Tbutton_4(self):
         self.comboBox.clear()
         self.comboBox.addItem("RSA")
         self.pushbutton_1.setText(self.algrithm_4.text())
-
 
     def tab1UI(self):
         # 帧布局
@@ -204,9 +213,14 @@ class TabDemo(QTabWidget):
         self.comboBox.setEditable(False)
         self.comboBox.setObjectName("combo_box")
         self.comboBox.addItem("默认")
+        self.comboBox_1 = QtWidgets.QComboBox()
+        self.comboBox_1.setEditable(False)
+        self.comboBox_1.setObjectName("combo_box")
+        self.comboBox_1.addItem("默认")
 
         pushbutton_layout.addWidget(self.pushbutton_1, 0, 0, 1, 2)
-        pushbutton_layout.addWidget(self.comboBox, 0, 2, 1, 1)
+        pushbutton_layout.addWidget(self.comboBox, 0, 1, 1, 1)
+        pushbutton_layout.addWidget(self.comboBox_1, 0, 2, 1, 1)
         main_layout.addWidget(pushbutton_widget)
 
         algrithm_widget = QtWidgets.QWidget()
@@ -451,7 +465,7 @@ class TabDemo(QTabWidget):
         )
         label_1.setAlignment(QtCore.Qt.AlignCenter)
         left_layout.addWidget(label_1, 0, 0, 1, 1)
-        self.tap4_textedit_1 = QPlainTextEdit()#QTextEdit()
+        self.tap4_textedit_1 = QPlainTextEdit()  # QTextEdit()
         left_layout.addWidget(self.tap4_textedit_1, 1, 0, 3, 1)
 
         label_2 = QLabel("接收区")
@@ -471,7 +485,6 @@ class TabDemo(QTabWidget):
         right_layout.addWidget(label_2, 0, 0, 1, 1)
         self.tap4_textedit_2 = QPlainTextEdit()
         right_layout.addWidget(self.tap4_textedit_2, 1, 0, 3, 1)
-
 
         self.tap4_bottom_buttom_1 = QPushButton("加密和数字签名")
         self.tap4_bottom_buttom_1.setFixedSize(180, 60)
