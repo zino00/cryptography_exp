@@ -14,6 +14,8 @@ from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
 import ssl
 import pprint
+from Crypto.Cipher import AES
+from Crypto.Cipher import DES
 
 class udp_logic(UI.MainUi):
     def __init__(self):
@@ -96,7 +98,7 @@ class udp_logic(UI.MainUi):
                     msg = '来自IP:{} 端口: {} 的消息:'.format(recv_addr[0], recv_addr[1])
                     self.send_Show_msg(msg)
 
-                    aes = crypto.aes_crypto(str(self.share_key)[:16].encode())
+                    aes = crypto.aes_crypto(str(self.share_key)[:16].encode(), 2)
                     # print(recv_msg)
                     # self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
                     s1 = aes.decrypt(recv_msg).decode()  # 原消息aes解密
@@ -198,7 +200,7 @@ class udp_logic(UI.MainUi):
         # 加密消息本身和签名
         s1 = message.encode()
         s3 = s1+'||'.encode()+s2
-        aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
+        aes = crypto.aes_crypto(str(self.share_key)[:16].encode(),2)  # 利用共享密钥进行aes加密
         self.send_msg = aes.encrypt(s3)  # 加密
         self.tab.tap4_textedit_1.clear()
         self.tab.tap4_textedit_1.appendPlainText(str(self.send_msg))
@@ -235,12 +237,34 @@ class udp_logic(UI.MainUi):
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RC4加密成功!')
         elif self.tab.pushbutton_1.text() == '对称加密':
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = DES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = DES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = DES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = DES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = DES.MODE_CFB
+                test = crypto.des_crypto(key.encode(), mode)
                 TextCipher = test.encrypt(p.encode())
                 self.tab.passwd_text_2.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES加密成功!')
             elif self.tab.comboBox.currentIndex() == 1:
-                test = crypto.aes_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = AES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = AES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = AES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = AES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = AES.MODE_CFB
+                test = crypto.aes_crypto(key.encode(), mode)
                 TextCipher = test.encrypt(p.encode())
                 self.tab.passwd_text_2.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES加密成功!')
@@ -281,12 +305,34 @@ class udp_logic(UI.MainUi):
         elif self.tab.pushbutton_1.text() == "对称加密":
             p = bytes().fromhex(p)
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = DES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = DES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = DES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = DES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = DES.MODE_CFB
+                test = crypto.des_crypto(key.encode(), mode)
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES解密成功!')
             elif self.tab.comboBox.currentIndex() == 1:
-                test = crypto.aes_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = AES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = AES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = AES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = AES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = AES.MODE_CFB
+                test = crypto.aes_crypto(key.encode(), mode)
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES解密成功!')
