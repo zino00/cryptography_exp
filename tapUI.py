@@ -40,12 +40,16 @@ class TabDemo(QTabWidget):
         self.comboBox.clear()
         self.comboBox.addItem("默认")
         self.pushbutton_1.setText(self.algrithm_1.text())
+        self.comboBox_1.clear()
+        self.comboBox_1.addItem("默认")
 
     def Tbutton_2(self):
         self.comboBox.clear()
         self.comboBox.addItem("RC4")
         self.comboBox.addItem("LFSR+J-K触发器")
         self.pushbutton_1.setText(self.algrithm_2.text())
+        self.comboBox_1.clear()
+        self.comboBox_1.addItem("默认")
 
     def Tbutton_3(self):
         self.comboBox.clear()
@@ -64,6 +68,8 @@ class TabDemo(QTabWidget):
         self.comboBox.clear()
         self.comboBox.addItem("RSA")
         self.pushbutton_1.setText(self.algrithm_4.text())
+        self.comboBox_1.clear()
+        self.comboBox_1.addItem("默认")
 
     def tab1UI(self):
         # 帧布局
