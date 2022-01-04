@@ -14,6 +14,8 @@ from Crypto.Signature import PKCS1_v1_5
 from Crypto.Hash import MD5
 import ssl
 import pprint
+from Crypto.Cipher import AES
+from Crypto.Cipher import DES
 
 class udp_logic(UI.MainUi):
     def __init__(self):
@@ -91,13 +93,13 @@ class udp_logic(UI.MainUi):
             try:
                 # 接收发送过来的字符
                 recv_msg, recv_addr = self.udp_serversocket.recvfrom(1024)
-                if recv_msg[:4] == b'[#5]':  # 接收到签名的消息验证后显示
+                if recv_msg[:4] == b'[#4]':  # 接收到签名的消息验证后显示
                     recv_msg = recv_msg[4:]
                     msg = '来自IP:{} 端口: {} 的消息:'.format(recv_addr[0], recv_addr[1])
                     self.send_Show_msg(msg)
 
-                    aes = crypto.aes_crypto(str(self.share_key)[:16].encode())
-                    print(recv_msg)
+                    aes = crypto.aes_crypto(str(self.share_key)[:16].encode(), 2)
+                    # print(recv_msg)
                     # self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
                     s1 = aes.decrypt(recv_msg).decode()  # 原消息aes解密
                     msg = '消息解密成功,开始验证消息签名\n'
@@ -130,8 +132,7 @@ class udp_logic(UI.MainUi):
                     test = _dh.ex_DH(self.private_key, self.public_key)
                     self.XB = test.random_key()
                     YB = test.get_calculation(self.XB)
-                    #sign = test.rsa_sign(str(YB))
-                    self.client_send('[#4]', '[#4]' + str(YB))
+                    self.client_send('[#3]', '[#3]' + str(YB))
                     self.send_Show_msg(msg)
                     recv_key = recv_msg[4:]  # 接收到的YA
                     self.recv_YA = _dh.atoi(recv_key)  # 字符转化为数字
@@ -142,15 +143,7 @@ class udp_logic(UI.MainUi):
                     self.send_Show_msg(msg)
                     msg = str(self.share_key)[:16]
                     self.tab.tap3_right_text.append(msg)
-                if recv_msg[:4] == '[#3]':  # 认证签名
-                    self.send_Show_msg(msg)
-                    recv_sign = _dh.atoi(recv_msg[4:])
-                    test = _dh.ex_DH(self.private_key, self.recv_pk)
-                    flag = test.rsa_verify(str(self.recv_rand_a), recv_sign)
-                    if flag == True:
-                        msg = '签名认证通过\n'
-                        self.send_Show_msg(msg)
-                if recv_msg[:4] == '[#4]':  # 身份认证
+                if recv_msg[:4] == '[#3]':  # 身份认证
                     test = _dh.ex_DH(self.private_key, self.public_key)
                     self.send_Show_msg(msg)
                     recv_key = recv_msg[4:]
@@ -176,9 +169,6 @@ class udp_logic(UI.MainUi):
             self.send_Show_msg('成功发送x^a%p\n')
         if op == '[#3]':
             self.udp_clientsocket.sendto(msg.encode(), self.sendaddress)
-            self.send_Show_msg('签名成功\n')
-        if op == '[#4]':
-            self.udp_clientsocket.sendto(msg.encode(), self.sendaddress)
             self.send_Show_msg('成功发送x^a%p\n')
 
     # 生产公私钥，并且发送公钥
@@ -198,7 +188,7 @@ class udp_logic(UI.MainUi):
         sign = test.rsa_sign(str(YA))
         self.client_send('[#2]', '[#2]'+str(YA))
 
-    # 同通信的消息用AES加密后，在使用RSA签名进行发送
+    # 通信的消息先使用RSA签名,再用AES加密后，进行发送
     def click_RSA_sign(self):
         # test=_dh.ex_DH(self.private_key, self.public_key)
         message = self.tab.tap4_textedit_1.toPlainText()
@@ -210,16 +200,16 @@ class udp_logic(UI.MainUi):
         # 加密消息本身和签名
         s1 = message.encode()
         s3 = s1+'||'.encode()+s2
-        aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
-        self.send_msg = aes.encrypt(s3)  #加密
+        aes = crypto.aes_crypto(str(self.share_key)[:16].encode(),2)  # 利用共享密钥进行aes加密
+        self.send_msg = aes.encrypt(s3)  # 加密
         self.tab.tap4_textedit_1.clear()
         self.tab.tap4_textedit_1.appendPlainText(str(self.send_msg))
-        self.send_Show_msg('AES加密和数字签名完成!\n加密并签名后的消息如下：')
+        self.send_Show_msg('RSA数字签名和AES加密完成!\n签名并加密后的消息如下：')
         self.send_Show_msg(str(self.send_msg))
 
     # 实现发送消息的控件
     def click_Send_msg(self):
-        self.send_msg = '[#5]'.encode() + self.send_msg
+        self.send_msg = '[#4]'.encode() + self.send_msg
         self.udp_clientsocket.sendto(self.send_msg, self.sendaddress)
         self.send_Show_msg('成功发送消息\n')
 
@@ -247,12 +237,34 @@ class udp_logic(UI.MainUi):
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：RC4加密成功!')
         elif self.tab.pushbutton_1.text() == '对称加密':
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = DES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = DES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = DES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = DES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = DES.MODE_CFB
+                test = crypto.des_crypto(key.encode(), mode)
                 TextCipher = test.encrypt(p.encode())
                 self.tab.passwd_text_2.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES加密成功!')
             elif self.tab.comboBox.currentIndex() == 1:
-                test = crypto.aes_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = AES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = AES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = AES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = AES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = AES.MODE_CFB
+                test = crypto.aes_crypto(key.encode(), mode)
                 TextCipher = test.encrypt(p.encode())
                 self.tab.passwd_text_2.setPlainText(str(binascii.b2a_hex(TextCipher))[2:-1])
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES加密成功!')
@@ -293,12 +305,34 @@ class udp_logic(UI.MainUi):
         elif self.tab.pushbutton_1.text() == "对称加密":
             p = bytes().fromhex(p)
             if self.tab.comboBox.currentIndex() == 0:
-                test = crypto.des_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = DES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = DES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = DES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = DES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = DES.MODE_CFB
+                test = crypto.des_crypto(key.encode(), mode)
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：DES解密成功!')
             elif self.tab.comboBox.currentIndex() == 1:
-                test = crypto.aes_crypto(key.encode())
+                mode = None
+                if self.tab.comboBox_1.currentIndex() == 0:
+                    mode = AES.MODE_ECB
+                elif self.tab.comboBox_1.currentIndex() == 1:
+                    mode = AES.MODE_CBC
+                elif self.tab.comboBox_1.currentIndex() == 2:
+                    mode = AES.MODE_CTR
+                elif self.tab.comboBox_1.currentIndex() == 3:
+                    mode = AES.MODE_OFB
+                elif self.tab.comboBox_1.currentIndex() == 4:
+                    mode = AES.MODE_CFB
+                test = crypto.aes_crypto(key.encode(), mode)
                 TextPlain = test.decrypt(p)
                 self.tab.passwd_text_1.setPlainText(TextPlain.decode())
                 self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：AES解密成功!')

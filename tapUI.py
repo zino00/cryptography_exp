@@ -57,12 +57,13 @@ class TabDemo(QTabWidget):
         self.comboBox.addItem("AES")
         self.pushbutton_1.setText(self.algrithm_3.text())
         self.comboBox_1.clear()
-        self.comboBox_1.addItem("MODE_ECB")
-        self.comboBox_1.addItem("MODE_CBC")
-        self.comboBox_1.addItem("MODE_CFB")
-        self.comboBox_1.addItem("MODE_OFB")
-        self.comboBox_1.addItem("MODE_OFB")
-        self.comboBox_1.addItem("MODE_CTR")
+        self.comboBox_1.addItem("ECB电子密码本模式")
+        self.comboBox_1.addItem("CBC密码分组链接模式")
+        self.comboBox_1.addItem("CTR计数器模式")
+        self.comboBox_1.addItem("OFB输出反馈模式")
+        self.comboBox_1.addItem("CFB密码反馈模式")
+
+
 
     def Tbutton_4(self):
         self.comboBox.clear()
