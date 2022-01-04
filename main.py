@@ -371,8 +371,8 @@ class udp_logic(UI.MainUi):
         self.ssl_client_socket.connect(ip_port)  # 连接服务器
         msg = '#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下'  # 输出证书信息
         self.send_Show_msg(msg)
-        # cert = pprint.pformat(self.ssl_client_socket.getpeercert())
-        # self.send_Show_msg(cert)
+        cert = pprint.pformat(self.ssl_client_socket.getpeercert())
+        self.send_Show_msg(cert)
         msg = '请在文本框输入要发送的消息'
         self.send_Show_msg(msg)
 
@@ -420,8 +420,8 @@ class udp_logic(UI.MainUi):
         msg = 'socket已关闭'
         self.send_Show_msg(msg)
 
-def main():
 
+def main():
     app = QtWidgets.QApplication(sys.argv)
     gui = udp_logic()
     gui.show()
@@ -429,5 +429,4 @@ def main():
 
 
 if __name__ == '__main__':
-
     main()
