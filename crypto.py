@@ -167,12 +167,18 @@ from Crypto.Cipher import DES
 # 分组密码
 class des_crypto:
 
-    def __init__(self, Key):
+    def __init__(self, Key, mode):
         self.key = Key
-        self.mode = DES.MODE_CBC #改为可修改
+        self.mode = mode
+        # self.mode = DES.MODE_CBC #改为可修改
 
     def encrypt(self, decryptText):
-        cipher1 = DES.new(self.key, self.mode, self.key)
+        if self.mode == DES.MODE_ECB:
+            cipher1 = DES.new(self.key, self.mode)
+        elif self.mode == DES.MODE_CTR:
+            cipher1 = DES.new(self.key, self.mode, nonce= b'0000000')
+        else:
+            cipher1 = DES.new(self.key, self.mode, self.key)
         # 分组补全
         length = 8
         TextNum = len(decryptText)
@@ -182,7 +188,12 @@ class des_crypto:
         return encryptText
 
     def decrypt(self, encryptText):
-        cipher2 = DES.new(self.key, self.mode, self.key)
+        if self.mode == DES.MODE_ECB:
+            cipher2 = DES.new(self.key, self.mode)
+        elif self.mode == DES.MODE_CTR:
+            cipher2 = DES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher2 = DES.new(self.key, self.mode, self.key)
         decryptText = cipher2.decrypt(encryptText)
         decryptText = decryptText.rstrip(b'\0')
         return decryptText
@@ -190,12 +201,18 @@ class des_crypto:
 
 class aes_crypto:
 
-    def __init__(self, Key):
+    def __init__(self, Key, mode):
         self.key = Key
-        self.mode = AES.MODE_CBC
+        self.mode = mode
 
     def encrypt(self, decryptText):
-        cipher1 = AES.new(self.key, self.mode, self.key)
+        iv = str(self.key)[:16].encode()
+        if self.mode == AES.MODE_ECB:
+            cipher1 = AES.new(self.key, self.mode)
+        elif self.mode == AES.MODE_CTR:
+            cipher1 = AES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher1 = AES.new(self.key, self.mode, iv)
         # 分组补全
         length = 16
         TextNum = len(decryptText)
@@ -205,7 +222,13 @@ class aes_crypto:
         return encryptText
 
     def decrypt(self, encryptText):
-        cipher2 = AES.new(self.key, self.mode, self.key)
+        iv = str(self.key)[:16].encode()
+        if self.mode == AES.MODE_ECB:
+            cipher2 = AES.new(self.key, self.mode)
+        elif self.mode == AES.MODE_CTR:
+            cipher2 = AES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher2 = AES.new(self.key, self.mode, iv)
         decryptText = cipher2.decrypt(encryptText)
         decryptText = decryptText.rstrip(b'\0')
         return decryptText
