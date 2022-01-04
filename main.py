@@ -200,7 +200,7 @@ class udp_logic(UI.MainUi):
 
     # 同通信的消息用AES加密后，在使用RSA签名进行发送
     def click_RSA_sign(self):
-        test=_dh.ex_DH(self.private_key, self.public_key)
+        # test=_dh.ex_DH(self.private_key, self.public_key)
         message = self.tab.tap4_textedit_1.toPlainText()
         # 签名
         h = MD5.new(message.encode())
@@ -212,11 +212,10 @@ class udp_logic(UI.MainUi):
         s3 = s1+'||'.encode()+s2
         aes = crypto.aes_crypto(str(self.share_key)[:16].encode())  # 利用共享密钥进行aes加密
         self.send_msg = aes.encrypt(s3)  #加密
-        print(self.send_msg)
+        self.tab.tap4_textedit_1.clear()
         self.tab.tap4_textedit_1.appendPlainText(str(self.send_msg))
-        #self.send_Show_msg(str(self.send_msg))
-
-        self.send_Show_msg('数字签名成功!\n')
+        self.send_Show_msg('AES加密和数字签名完成!\n加密并签名后的消息如下：')
+        self.send_Show_msg(str(self.send_msg))
 
     # 实现发送消息的控件
     def click_Send_msg(self):
@@ -231,7 +230,6 @@ class udp_logic(UI.MainUi):
         if self.tab.pushbutton_1.text() == '仿射加密':
             test = crypto.Radiate()
             TextPlain = test.encryption(p.encode(), key.encode())
-            # print(TextPlain)
             self.send_Show_msg(TextPlain)
             self.tab.passwd_text_2.setPlainText(TextPlain)
             self.send_Show_msg(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + '：仿射加密成功!')
@@ -323,7 +321,6 @@ class udp_logic(UI.MainUi):
         self.ssl_server_thread.start()
         msg = "服务器正在监听端口"
         self.send_Show_msg(msg)
-        print(msg)
 
     def ssl_start_client(self):
         self.ssl_client_thread = threading.Thread(target=self.ssl_client_recv)
@@ -348,17 +345,13 @@ class udp_logic(UI.MainUi):
 
         msg = '#服务端消息#：启动socket服务，等待客户端连接...'
         self.send_Show_msg(msg)
-        print(msg)
+
         self.ssl_connect_sock, self.ssl_address = sk.accept()  # 等待连接，此处自动阻塞
         # 包装一个现有的 Python socket,并返回一个ssl socket,server_side为true表示为服务器行为，默认为false则表示客户端
         self.ssl_server_socket = context.wrap_socket(self.ssl_connect_sock, server_side=True)
         while True:  # 一个死循环
             client_data = self.ssl_server_socket.recv(1024).decode()  # 接收信息
             if client_data == 'exit':
-                self.ssl_server_socket.sendall(client_data.encode())
-                msg = '服务端线程已关闭'
-                self.send_Show_msg(msg)
-                self.tab.tab5TextEdit_1.clear()
                 break
             self.tab.tab5TextEdit_1.clear()
             self.tab.tab5TextEdit_1.appendPlainText(client_data)
@@ -376,18 +369,16 @@ class udp_logic(UI.MainUi):
         self.ssl_client_socket = context.wrap_socket(s, server_hostname='127.0.0.1')  # 返回的 SSL 套接字会绑定上下文、设置以及证书
 
         self.ssl_client_socket.connect(ip_port)  # 连接服务器
-        msg = '#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下,请输入要发送的消息'  # 输出证书信息
+        msg = '#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下'  # 输出证书信息
         self.send_Show_msg(msg)
-        print('#客户端消息#：客户端成功验证服务端证书，已成功连接，服务端证书信息如下')
-        pprint.pprint(self.ssl_client_socket.getpeercert())
+        cert = pprint.pformat(self.ssl_client_socket.getpeercert())
+        self.send_Show_msg(cert)
+        msg = '请在文本框输入要发送的消息'
+        self.send_Show_msg(msg)
 
         while True:  # 一个死循环
             server_data = self.ssl_client_socket.recv(1024).decode()  # 接收信息
             if server_data == 'exit':
-                self.ssl_client_socket.sendall(server_data.encode())
-                msg = '客户端线程已关闭'
-                self.send_Show_msg(msg)
-                self.tab.tab5TextEdit_2.clear()
                 break
             self.tab.tab5TextEdit_2.clear()
             self.tab.tab5TextEdit_2.appendPlainText(server_data)
@@ -416,13 +407,21 @@ class udp_logic(UI.MainUi):
 
     # 关闭线程
     def ssl_end_threading(self):
+        self.ssl_server_socket.sendall('exit'.encode())
+        self.ssl_client_socket.sendall('exit'.encode())
+        msg = '客户端线程已关闭'
+        self.send_Show_msg(msg)
+        self.tab.tab5TextEdit_2.clear()
+        msg = '服务端线程已关闭'
+        self.send_Show_msg(msg)
+        self.tab.tab5TextEdit_1.clear()
         self.ssl_server_socket.close()
         self.ssl_client_socket.close()
         msg = 'socket已关闭'
         self.send_Show_msg(msg)
 
-def main():
 
+def main():
     app = QtWidgets.QApplication(sys.argv)
     gui = udp_logic()
     gui.show()
@@ -430,5 +429,4 @@ def main():
 
 
 if __name__ == '__main__':
-
     main()

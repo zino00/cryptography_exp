@@ -169,7 +169,6 @@ class des_crypto:
 
     def __init__(self, Key):
         self.key = Key
-        # self.iv = iv
         self.mode = DES.MODE_CBC #改为可修改
 
     def encrypt(self, decryptText):

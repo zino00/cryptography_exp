@@ -8,7 +8,7 @@
 """
 图形化界面设计
 """
-from PyQt5.QtGui import QMouseEvent
+
 
 """
 常用模块：
