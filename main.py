@@ -96,8 +96,6 @@ class udp_logic(UI.MainUi):
                     self.send_Show_msg(msg)
 
                     aes = crypto.aes_crypto(str(self.share_key)[:16].encode(), 2)
-                    # print(recv_msg)
-                    # self.tab.tap4_textedit_2.appendPlainText(str(recv_msg))
                     s1 = aes.decrypt(recv_msg).decode()  # 原消息aes解密
                     msg = '消息解密成功,开始验证消息签名\n'
                     self.send_Show_msg(msg)

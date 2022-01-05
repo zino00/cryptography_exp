@@ -42,7 +42,7 @@ class RC4(object):
         return result.encode('utf-8')
 
 
-class LFSR():
+class LFSR:
     def __init__(self, c=None, a=None, lenc=0):
         if a is None:
             a = []
@@ -69,7 +69,7 @@ class LFSR():
         return outp
 
 
-class cypto_LFSR():
+class cypto_LFSR:
     def __init__(self, key, lfsr1 = None, lfsr2 = None):
         if lfsr1 is None:
             lfsr1 = [0, 1, 0, 1]
@@ -237,16 +237,16 @@ class aes_crypto:
 # RSA
 def Ex_Euclid(a, b):
     if 0 == b:
-        x = 1;
-        y = 0;
+        x = 1
+        y = 0
         q = a
         return x, y, q
     xyq = Ex_Euclid(b, a % b)
-    x = xyq[0];
-    y = xyq[1];
+    x = xyq[0]
+    y = xyq[1]
     q = xyq[2]
-    temp = x;
-    x = y;
+    temp = x
+    x = y
     y = temp - a // b * y
     return x, y, q
 
