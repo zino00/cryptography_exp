@@ -491,7 +491,7 @@ class TabDemo(QTabWidget):
         self.tap4_textedit_2 = QPlainTextEdit()
         right_layout.addWidget(self.tap4_textedit_2, 1, 0, 3, 1)
 
-        self.tap4_bottom_buttom_1 = QPushButton("加密和数字签名")
+        self.tap4_bottom_buttom_1 = QPushButton("数字签名和加密")
         self.tap4_bottom_buttom_1.setFixedSize(180, 60)
         self.tap4_bottom_buttom_2 = QPushButton("发送消息")
         self.tap4_bottom_buttom_2.setFixedSize(180, 60)

@@ -37,7 +37,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QCoreApplication
 from selenium import webdriver
 import time
-
+import webbrowser
 
 class MainUi(QtWidgets.QMainWindow):
     def __init__(self):
@@ -237,94 +237,31 @@ class MainUi(QtWidgets.QMainWindow):
         time.sleep(10)
 
     def p1_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://www.zhihu.com/question/31871888/answer/1301925317'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://www.zhihu.com/question/31871888/answer/1301925317')
 
     def p2_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://www.cnblogs.com/tianxia2s/p/8735079.html'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://www.cnblogs.com/tianxia2s/p/8735079.html')
 
     def p3_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://zhuanlan.zhihu.com/p/52208681'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://www.zhihu.com/question/31871888/answer/1301925317')
 
     def p4_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = r'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md')
 
     def p5_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md')
 
     def p6_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md')
 
     def p7_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://github.com/Dominique-Yiu/cryptology_exp'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp')
 
     def p8_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://www.hnu.edu.cn/'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://www.hnu.edu.cn/')
 
     def p9_event(self):
-        chrome_driver = r"./chromedriver.exe"
-        driver = webdriver.Chrome(executable_path=chrome_driver)
-        url = 'https://stackoverflow.com/'
-        # 访问
-        driver.get(url)
-        # 最大化窗口
-        driver.maximize_window()
-        time.sleep(10)
+        webbrowser.open('https://stackoverflow.com/')
 
     def exp_bar(self):
         self.tab = TabDemo()
