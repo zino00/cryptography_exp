@@ -22,13 +22,13 @@ class Gen_Key():
         random_generator = Random.new().read
         rsa = RSA.generate(2048, random_generator)
         self.private_pem = rsa.exportKey()
-        with open('master-privatekey.pem', 'wb+') as f:
+        with open('../key/master-privatekey.pem', 'wb+') as f:
             f.write(self.private_pem)
-        self.private_key = RSA.importKey(open('master-privatekey.pem').read())
+        self.private_key = RSA.importKey(open('../key/master-privatekey.pem').read())
         self.public_pem = rsa.publickey().exportKey()
-        with open('master-publickey.pem', 'wb+') as f:
+        with open('../key/master-publickey.pem', 'wb+') as f:
             f.write(self.public_pem)
-        self.public_key = RSA.importKey(open('master-publickey.pem', 'r').read())
+        self.public_key = RSA.importKey(open('../key/master-publickey.pem', 'r').read())
 
     def get_pri(self):
         return self.private_key
