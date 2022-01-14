@@ -178,7 +178,7 @@ class MainUi(QtWidgets.QMainWindow):
         )
 
         self.right_info_head = QtWidgets.QToolButton()
-        self.right_info_head.setIcon(QtGui.QIcon('./head.jpg'))
+        # self.right_info_head.setIcon(QtGui.QIcon('head.jpg'))
         self.right_info_head.setIconSize(QtCore.QSize(30, 30))
 
         self.display_name = QtWidgets.QLabel("Yiu")
@@ -215,7 +215,7 @@ class MainUi(QtWidgets.QMainWindow):
         self.right_bar_widget_search_input.returnPressed.connect(self.search_by_baidu)
 
     def search_by_baidu(self):
-        chrome_driver = r"./chromedriver.exe"
+        chrome_driver = r"../chromedriver.exe"
         driver = webdriver.Chrome(executable_path=chrome_driver)
         url = 'https://www.baidu.com/'
         # 访问
@@ -252,7 +252,7 @@ class MainUi(QtWidgets.QMainWindow):
         webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md')
 
     def p6_event(self):
-        webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp/blob/master/README.md')
+        webbrowser.open('https://zino00.github.io/posts/cf547d62/')
 
     def p7_event(self):
         webbrowser.open('https://github.com/Dominique-Yiu/cryptology_exp')

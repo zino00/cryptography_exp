@@ -358,7 +358,7 @@ class udp_logic(UI.MainUi):
         def run(self):
             ip_port = ('127.0.0.1', 9999)
             context = ssl.SSLContext(ssl.PROTOCOL_TLS)  # 创建了一个 SSL上下文,ssl.PROTOCOL_TLS表示选择客户端和服务器均支持的最高协议版本
-            context.load_cert_chain(certfile="server.crt", keyfile="server.key")  # 加载一个私钥及对应的证书
+            context.load_cert_chain(certfile="../cert/server.crt", keyfile="../cert/server.key")  # 加载一个私钥及对应的证书
 
             sk = socket.socket()  # 创建套接字
             sk.bind(ip_port)  # 绑定服务地址
@@ -389,7 +389,7 @@ class udp_logic(UI.MainUi):
         def run(self):
             context = ssl.SSLContext(ssl.PROTOCOL_TLS)  # 创建了一个 SSL上下文,ssl.PROTOCOL_TLS表示选择客户端和服务器均支持的最高协议版本
             context.verify_mode = ssl.CERT_REQUIRED  # 设置模式为CERT_REQUIRED，在此模式下，需要从套接字连接的另一端获取证书；如果未提供证书或验证失败则将引发 SSLError
-            context.load_verify_locations("ca.crt")  # 加载一组用于验证其他对等方证书的CA证书
+            context.load_verify_locations("../cert/ca.crt")  # 加载一组用于验证其他对等方证书的CA证书
             ip_port = ('127.0.0.1', 9999)  # 设置端口
             s = socket.socket()  # 创建套接字
             # 包装一个现有的 Python 套接字 sock 并返回一个 SSLContext.sslsocket_class 的实例 (默认为 SSLSocket)。

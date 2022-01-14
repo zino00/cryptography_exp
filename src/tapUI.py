@@ -234,25 +234,25 @@ class TabDemo(QTabWidget):
 
         self.algrithm_1 = QtWidgets.QToolButton()
         self.algrithm_1.setText("仿射加密")
-        self.algrithm_1.setIcon(QtGui.QIcon('./assets/20210801.jpg'))
+        self.algrithm_1.setIcon(QtGui.QIcon('../assets/20210801.jpg'))
         self.algrithm_1.setIconSize(QtCore.QSize(200, 100))
         self.algrithm_1.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
 
         self.algrithm_2 = QtWidgets.QToolButton()
         self.algrithm_2.setText("流密码加密")
-        self.algrithm_2.setIcon(QtGui.QIcon('./assets/2021729_3.jpg'))
+        self.algrithm_2.setIcon(QtGui.QIcon('../assets/2021729_3.jpg'))
         self.algrithm_2.setIconSize(QtCore.QSize(200, 100))
         self.algrithm_2.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
 
         self.algrithm_3 = QtWidgets.QToolButton()
         self.algrithm_3.setText("对称加密")
-        self.algrithm_3.setIcon(QtGui.QIcon('./assets/bomb.jpeg'))
+        self.algrithm_3.setIcon(QtGui.QIcon('../assets/bomb.jpeg'))
         self.algrithm_3.setIconSize(QtCore.QSize(200, 100))
         self.algrithm_3.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
 
         self.algrithm_4 = QtWidgets.QToolButton()
         self.algrithm_4.setText("非对称加密")
-        self.algrithm_4.setIcon(QtGui.QIcon('./assets/Leecode4.jpg'))
+        self.algrithm_4.setIcon(QtGui.QIcon('../assets/Leecode4.jpg'))
         self.algrithm_4.setIconSize(QtCore.QSize(200, 100))
         self.algrithm_4.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
 
