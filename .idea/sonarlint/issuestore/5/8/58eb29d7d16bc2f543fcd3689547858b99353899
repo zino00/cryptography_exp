@@ -1,0 +1,8 @@
+
+jpython:S1542‹"QRename function "Get_Inverse" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÃÓ´
+…python:S1845"gRename method "Encrypt" to prevent any misunderstanding/clash with method "encrypt" defined on line 280(ÌñÄşÿÿÿÿ
+…python:S1845¶"gRename method "Decrypt" to prevent any misunderstanding/clash with method "decrypt" defined on line 283(ä¡ıÿÿÿÿ
+epython:S117˜"MRename this parameter "M" to match the regular expression ^[_a-z][a-z0-9_]*$.(³–î
+jpython:S117›"MRename this parameter "C" to match the regular expression ^[_a-z][a-z0-9_]*$.(š»Éàıÿÿÿÿ
+hpython:S100"KRename method "Encrypt" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÌñÄşÿÿÿÿ
+hpython:S100¶"KRename method "Decrypt" to match the regular expression ^[a-z_][a-z0-9_]*$.(ä¡ıÿÿÿÿ

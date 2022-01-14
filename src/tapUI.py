@@ -34,7 +34,7 @@ class TabDemo(QTabWidget):
         self.tab5UI()
 
         self.decorate()
-        self.setWindowTitle("Tab 例子")
+        # self.setWindowTitle("Tab 例子")
 
     def Tbutton_1(self):
         self.comboBox.clear()
@@ -62,8 +62,6 @@ class TabDemo(QTabWidget):
         self.comboBox_1.addItem("CTR计数器模式")
         self.comboBox_1.addItem("OFB输出反馈模式")
         self.comboBox_1.addItem("CFB密码反馈模式")
-
-
 
     def Tbutton_4(self):
         self.comboBox.clear()

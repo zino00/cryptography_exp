@@ -289,27 +289,25 @@ s.close()    # 关闭连接
 
 参考链接：
 
-[https://mp.weixin.qq.com/s?spm=a2c6h.12873639.0.0.eb782367OsHsnu&__biz=MzI5NDY1MjQzNA==&mid=2247488070&idx=3&sn=0d7fa40a22165e497d1fd27228ff17de&chksm=ec5ecd3bdb29442d8d32a93e0cd35b5f971963a35bceb7e2130aac07493dd04b11acbb370573&scene=0#rd](UI设计参考)
+[UI设计参考]([https://mp.weixin.qq.com/s?spm=a2c6h.12873639.0.0.eb782367OsHsnu&__biz=MzI5NDY1MjQzNA==&mid=2247488070&idx=3&sn=0d7fa40a22165e497d1fd27228ff17de&chksm=ec5ecd3bdb29442d8d32a93e0cd35b5f971963a35bceb7e2130aac07493dd04b11acbb370573&scene=0#rd)
 
-[https://blog.csdn.net/jeekmary/article/details/79591431]()
+[QTabWidget的详细使用](https://blog.csdn.net/jeekmary/article/details/79591431)
 
-[https://blog.csdn.net/qq_40602000/article/details/104652131]()
+[QSS美化](https://blog.csdn.net/qq_40602000/article/details/104652131)
 
-[https://blog.csdn.net/wowocpp/article/details/105228300]()
+[PyQt5的页面切换](https://blog.csdn.net/wowocpp/article/details/105228300)
+
+[git仓库同步和冲突问题和解决](https://github.com/selfteaching/the-craft-of-selfteaching/issues/67)
 
 成员笔记：
 
-[https://github.com/selfteaching/the-craft-of-selfteaching/issues/67]()
+[利用OpenSSL进行通信](https://zino00.github.io/posts/cf547d62/)
 
-[https://zino00.github.io/posts/cf547d62/]()
-
-[https://zino00.github.io/posts/cf547d62/]()
+[Socket编程实现](https://zino00.github.io/posts/79900945/)
 
 12/16
 
 今日完成登录界面和主界面的部分：
-
-![image.png](./assets/1639662560341-image.png)
 
 ![image.png](./assets/1639662580337-image.png)
 

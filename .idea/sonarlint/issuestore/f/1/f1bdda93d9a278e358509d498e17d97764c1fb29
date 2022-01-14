@@ -1,0 +1,15 @@
+
+qpython:S1192Û"SDefine a constant instead of duplicating this literal '%Y-%m-%d %H:%M:%S' 14 times.(®©ùÿÿÿÿ
+_python:S2208"GImport only needed names or import the module and then use its members.(¾ß€š
+?python:S1481R"'Remove the unused local variable "ret".(•Ğš
+4python:S2772U"Remove this unneeded "pass".(ã‘Û¾
+Cpython:S1481™"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ
+Hpython:S5806i"+Rename this variable; it shadows a builtin.(øĞä»ûÿÿÿÿ
+7python:S125»"Remove this commented out code.(È˜±
+xpython:S117ö"[Rename this local variable "TextCipher" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÀâáÈùÿÿÿÿ
+rpython:S117Ø"ZRename this local variable "TextPlain" to match the regular expression ^[_a-z][a-z0-9_]*$.(¿«¬¨
+rpython:S3776Ó"TRefactor this function to reduce its Cognitive Complexity from 34 to the 15 allowed.(Á…èıÿÿÿÿ
+rpython:S117œ"ZRename this local variable "TextPlain" to match the regular expression ^[_a-z][a-z0-9_]*$.(­š‘¥
+rpython:S3776—"TRefactor this function to reduce its Cognitive Complexity from 27 to the 15 allowed.(¡Ê‚úÿÿÿÿ
+Jpython:S4423è",Change this code to use a stronger protocol.(‚áŞ¯ûÿÿÿÿ
+Jpython:S4423†",Change this code to use a stronger protocol.(‚áŞ¯ûÿÿÿÿ
