@@ -34,8 +34,6 @@
         self.main_layout.addWidget(self.right_widget, 0, 2, 12, 10)
 ```
 
-
-
 ### 左侧菜单栏
 
 在左侧菜单栏中依旧使用网格进行布局，在左侧的菜单布局中添加的所有部件均为按钮，即QPushButton()，这些按钮包括菜单按钮、菜单列提示以及窗口的最小化和和关闭功能按钮。其具体的布局如下：
@@ -167,12 +165,12 @@ self.setWindowFlag(QtCore.Qt.FramelessWindowHint) # 隐藏边框
 为了避免隐藏窗口边框后，左侧部件没有背景颜色和边框显示，我们再对左侧部件添加QSS属性：
 
 ```python
-QWidget#left_widget{    
-    background:gray;    
-    border-top:1px solid white;    
-    border-bottom:1px solid white;    
-    border-left:1px solid white;    
-    border-top-left-radius:10px;    
+QWidget#left_widget{  
+    background:gray;  
+    border-top:1px solid white;  
+    border-bottom:1px solid white;  
+    border-left:1px solid white;  
+    border-top-left-radius:10px;  
     border-bottom-left-radius:10px;
 }
 ```
@@ -228,19 +226,534 @@ def remove_ClientText(self):
 ......
 ```
 
-
-
 # 数据加密
 
 ## 流密码
 
+### RC4算法
+
+原理：
+
+```
+一个256字节的状态向量S= {0，1，…，255}，用比特字节表示为S= {00000000, 00000001, ….，11111111}。如果用一个可变长度为1
+```
+
+~256字节（8~8048位）的密钥来初始化256字节的状态向量S={S[0], S[1], …, S[255]}，任何时候，S都包含0~255的8位无符号数的排列组合。加密和解密时，密码流中的每一个字节k由S产生，通过系统的方式随机从S的256个元素中选取一个。每产生一个字节k，S的元素都要被再次排列。
+
+加解密过程：
+
+```python
+class RC4(object):
+    def __init__(self, key=None):
+        if not key:
+            key = b'default_key'
+        self.key = key.decode('utf-8')
+        self._init_slist()
+    # 初始化s列表 单下划线开头表示权限为protected
+    def _init_slist(self):
+        # 初始化s列表
+        self.slist = [i for i in range(256)]
+        # 初始化t列表
+        length = len(self.key)
+        t = [ord(self.key[i % length]) for i in range(256)]
+        # 用t产生s的初始置换
+        j = 0
+        for i in range(256):
+            j = (j + self.slist[i] + t[i]) % 256
+            self.slist[i], self.slist[j] = self.slist[j], self.slist[i]
+    # 加解密
+    def do_crypt(self, ss):
+        i = 0
+        j = 0
+        result = ''
+        ss = ss.decode('utf-8')
+        for s in ss:
+            i = (i + 1) % 256
+            j = (j + self.slist[j]) % 256
+            self.slist[i], self.slist[j] = self.slist[j], self.slist[i]
+            t = (self.slist[i] + self.slist[j]) % 256
+            result += chr(ord(s) ^ self.slist[t])
+            self.slist[i], self.slist[j] = self.slist[j], self.slist[i]
+        return result.encode('utf-8')
+```
+
+实现效果：
+
+![RC4实现](assets/RC4实现.png)
+
+### LFSR+JK触发器算法
+
+原理：
+定义两个线性反馈移位寄存器（LFSR），并对初始状态进行初始化，将LFSR的特征[多项式](https://so.csdn.net/so/search?q=多项式&spm=1001.2101.3001.7020)作为密钥由用户输入（我们设置为8位密钥）。得到密钥我们就能根据以下线性反馈移位寄存器（LFSR）的原理，生成两个序列，这个LFSR可以产生的最大序列长度为2^m-1。将两个序列分别作为JK触发器的输入端J、K，并且根据JK触发器的结构及逻辑真值表，可以得到255位的密钥流。输入明文时，先将明文转换为二进制字符串，进行加密后，再转化为字符串。
+
+![](assets/LFSR+JK原理.png)
+
+加解密过程：
+
+```python
+class LFSR:
+    #生成两个LFSR序列
+    def __init__(self, c=None, a=None, lenc=0):
+        if a is None:
+            a = []
+        if c is None:
+            c = []
+        self.a = a
+        self.c = c
+        self.lenc = lenc
+        lena = len(a)
+        if lena < lenc:
+            cnta = (lenc - lena) // lena + 1
+            for i in range(cnta):
+                self.a.extend(a)
+    def LeftShift(self):
+        lastb = 0
+        lenc = self.lenc
+        for i in range(lenc):
+            lastb = lastb ^ (self.a[i] & self.c[i])
+        b = self.a[1:]
+        outp = self.a[0]
+        b.append(outp)
+        self.a = b
+        return outp
+
+class cypto_LFSR:
+    def __init__(self, key, lfsr1 = None, lfsr2 = None):
+        if lfsr1 is None:
+            lfsr1 = [0, 1, 0, 1]#LFSR序列1
+        if lfsr2 is None:
+            lfsr2 = [0, 0, 1, 1]#LFSR序列2
+        Keymap = get_str_bits(key)
+        lenk = len(Keymap)
+        self.lfsr1 = LFSR(Keymap, lfsr1, lenk)
+        self.lfsr2 = LFSR(Keymap, lfsr2, lenk)
+        self.Key = Keymap
+        self.lc = 0
+    def GetBit(self):
+        ak = self.lfsr1.LeftShift()
+        bk = self.lfsr2.LeftShift()
+        ck = ak ^ ((ak ^ bk) & self.lc)  # JK触发器
+        self.lc = ck
+        return ck
+    def do_crypt(self, LFSR_msg):
+        text = []
+        for i in LFSR_msg:
+            j, cnt = i, 8
+            tmp = []
+            while cnt > 0:
+                tmp.append(self.GetBit() ^ (j & 1))
+                j = j >> 1
+                cnt = cnt - 1
+            res = 0
+            for iti in range(7, -1, - 1):
+                res = res << 1
+                res = res + tmp[iti]
+            text.append(res)
+        return bytes(text)
+```
+
+实现过程：
+
+![LFSR+JK实现](assets/LFSR+JK实现.png)
+
 ## 仿射加密
+
+原理：
+
+```
+仿射密码的加密算法就是一个线性变换，即对任意的明文字符x，对应的密文字符为
+```
+
+
+![img](https://bkimg.cdn.bcebos.com/formula/f6c54e6a5367a9add208214c172423d5.svg)
+
+其中，a,b∈Z26，且要求gcd(a,26)=1,函数e(x)称为仿射加密函数。
+
+加解密过程：
+
+```python
+class Radiate:
+    # 加密
+    def encryption(self, plaintext, KeyConf):
+        strr = ''
+        KeyConf = KeyConf.decode('utf-8')
+        plaintext = plaintext.decode('utf-8')
+        a = int(KeyConf.split('\n')[0])
+        b = int(KeyConf.split('\n')[1])
+        for i in plaintext:
+            temp = ord(i) - 97
+            t = (temp * a + b) % 26
+            te = chr(t + 97)
+            strr += te
+        return strr
+    # 解密
+    def decryption(self, ciphertext, KeyConf):
+        strr = ''
+        KeyConf = KeyConf.decode('utf-8')
+        ciphertext = ciphertext.decode('utf-8')
+        a = int(KeyConf.split('\n')[0])
+        b = int(KeyConf.split('\n')[1])
+        aa = inv(a, 26)
+        for i in ciphertext:
+            temp = ord(i) - 97
+            t = ((temp - b + 26) % 26) * aa % 26
+            te = chr(t + 97)
+            strr += te
+        return strr
+```
+
+实现效果：
+
+![仿射加密实现](assets/仿射加密实现.png)
 
 ## 对称加密
 
+### DES算法
+
+原理：
+DES 使用一个 56 位的密钥以及附加的 8 位奇偶校验位，产生最大 64 位的分组大小。这是一个迭代的分组密码，使用称为 Feistel 的技术，其中将加密的文本块分成两半。使用子密钥对其中一半应用循环功能，然后将输出与另一半进行“异或”运算；接着交换这两半，这一过程会继续下去，但最后一个循环不交换。DES 使用 16 个循环，使用异或，置换，代换，移位操作四种基本运算。
+
+![DES原理](assets/DES原理.png)
+
+加解密过程：
+
+```python
+class des_crypto:
+    #密钥的初始化
+    def __init__(self, Key, mode):
+        self.key = Key
+        self.mode = mode
+        # self.mode = DES.MODE_CBC #改为可修改
+    #加密，这里直接调用库中的DES函数
+    def encrypt(self, decryptText):
+        if self.mode == DES.MODE_ECB:
+            cipher1 = DES.new(self.key, self.mode)
+        elif self.mode == DES.MODE_CTR:
+            cipher1 = DES.new(self.key, self.mode, nonce= b'0000000')
+        else:
+            cipher1 = DES.new(self.key, self.mode, self.key)
+        # 分组补全
+        length = 8
+        TextNum = len(decryptText)
+        add = (length - (TextNum % length)) % length
+        decryptText = decryptText + (b'\0' * add)
+        encryptText = cipher1.encrypt(decryptText)
+        return encryptText
+    #解密，这里也是直接调用库中的DES函数
+    def decrypt(self, encryptText):
+        if self.mode == DES.MODE_ECB:
+            cipher2 = DES.new(self.key, self.mode)
+        elif self.mode == DES.MODE_CTR:
+            cipher2 = DES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher2 = DES.new(self.key, self.mode, self.key)
+        decryptText = cipher2.decrypt(encryptText)
+        decryptText = decryptText.rstrip(b'\0')
+        return decryptText
+```
+
+实现效果：
+
+![DES实现](assets/DES实现.png)
+
+### AES算法
+
+原理：
+
+```
+AES加密过程涉及到4种操作，分别是字节替代、行移位、列混淆和轮密钥加。解密过程分别为对应的逆操作。由于每一步操作都是可逆的，按照相反的顺序进行解密即可恢复明文。加解密中每轮的密钥分别由初始密钥扩展得到。算法中16个字节的明文、密文和轮密钥都以一个4x4的矩阵表示。
+```
+
+
+![AES原理](assets/AES原理.webp)
+
+加解密过程：
+
+```python
+class aes_crypto:
+    #密钥的初始化
+    def __init__(self, Key, mode):
+        self.key = Key
+        self.mode = mode
+    #加密，这里直接调用的是库中的AES函数
+    def encrypt(self, decryptText):
+        iv= str(self.key)[:16].encode()
+        if self.mode == AES.MODE_ECB:
+            cipher1 = AES.new(self.key, self.mode)
+        elif self.mode == AES.MODE_CTR:
+            cipher1 = AES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher1 = AES.new(self.key, self.mode, iv)
+        # 分组补全
+        length = 16
+        TextNum = len(decryptText)
+        add = (length - (TextNum % length)) % length
+        decryptText = decryptText + (b'\0' * add)
+        encryptText = cipher1.encrypt(decryptText)
+        return encryptText
+    #解密，这里直接调用的是库中的AES函数
+    def decrypt(self, encryptText):
+        iv = str(self.key)[:16].encode()
+        if self.mode == AES.MODE_ECB:
+            cipher2 = AES.new(self.key, self.mode)
+        elif self.mode == AES.MODE_CTR:
+            cipher2 = AES.new(self.key, self.mode, nonce=b'0000000')
+        else:
+            cipher2 = AES.new(self.key, self.mode, iv)
+        decryptText = cipher2.decrypt(encryptText)
+        decryptText = decryptText.rstrip(b'\0')
+        return decryptText
+```
+
+实现效果：
+
+![AES实现](assets/AES实现.png)
+
 ## 非对称加密
 
+原理：
+
+```
+假设有消息发送方A和消息接收方B，通过下面的几个步骤，就可以完成消息的加密传递：
+（1）消息发送方A在本地构建密钥对，公钥和私钥；（2）消息发送方A将产生的公钥发送给消息接收方B；（3）B向A发送数据时，通过公钥进行加密，A接收到数据后通过私钥进行解密，完成一次通信。
+```
+
+
+![RSA原理](assets/RSA原理.webp)
+
+公钥私钥的生成过程：
+
+![RSA公私钥生成](assets/RSA公私钥生成.png)
+
+加解密过程：
+
+```python
+class RSA:
+   #计算公钥和私钥
+    def __init__(self):
+        self.p = 587
+        self.q = 113
+        self.n = self.p * self.q
+        self.e = 5
+        self.d = (Get_Inverse(self.e, (self.p - 1) * (self.q - 1)) + (self.p - 1) * (self.q - 1)) % (
+                (self.p - 1) * (self.q - 1))
+
+    def encrypt(self, M):
+        return ksm(M, self.e, self.n)
+
+    def decrypt(self, C):
+        return ksm(C, self.d, self.n)
+    #使用私钥进行加密
+    def Encrypt(self, plaintxt):
+        s = plaintxt
+        s1 = []
+        for x in s:
+            temp = int(format(ord(x), 'b'), 2)
+            if temp >= 2 ** 8:
+                s1.append(0)
+                s1.append(int(temp / 256))
+                s1.append(0)
+                s1.append(temp % 256)
+            else:
+                s1.append(temp)
+        if len(s1) % 2 == 1:
+            s1.append(1)
+        s2 = []
+        i = 0
+        while True:
+            temp = s1[i] * (2 ** 8) + s1[i + 1]
+            i = i + 2
+            s2.append(self.encrypt(temp))
+            if i >= len(s1):
+                break
+        return s2
+    #使用公钥进行解密
+    def Decrypt(self, cipher):
+        s2 = cipher
+        s3 = []
+        i = 0
+        while True:
+            temp = self.decrypt(s2[i])
+            i = i + 1
+            s3.append(int(temp / 256))
+            if temp % 256 != 1:
+                s3.append(temp % 256)
+            if i >= len(s2):
+                break
+        s4 = ''
+        i = 0
+        while True:
+            if s3[i] == 0:
+                temp = s3[i + 1] * 256 + s3[i + 3]
+                s4 += chr(temp)
+                i += 3
+            else:
+                s4 += chr(s3[i])
+            i = i + 1
+            if i >= len(s3):
+                break
+        return s4
+```
+
+实现效果：
+![RSA实现](assets/RSA实现.png)
+
 # DH协议
+
+```
+DH协议的出现是为了解决以下困难：Alice和Bob 想共有一个密钥用于对称加密，但是他们之间的通信渠道是不安全的，所有经过此渠道的信息均会被敌对方Eve看到。DH协议就很好地解决了这个问题，以下是DH协议的方案：
+```
+
+
+（1）Alice和Bob先对p 和g达成一致，而且公开出来。Eve也就知道它们的值了。
+
+```python
+class Gen_Key():
+    def __init__(self):
+        random_generator = Random.new().read
+        rsa = RSA.generate(2048, random_generator)
+        self.private_pem = rsa.exportKey()
+        with open('master-privatekey.pem', 'wb+') as f:
+            f.write(self.private_pem)
+        self.private_key = RSA.importKey(open('master-privatekey.pem').read())
+        self.public_pem = rsa.publickey().exportKey()
+        with open('master-publickey.pem', 'wb+') as f:
+            f.write(self.public_pem)
+        self.public_key = RSA.importKey(open('master-publickey.pem', 'r').read())
+
+    def get_pri(self):
+        return self.private_key
+
+    def get_pub(self):
+        return self.public_key
+
+    def get_pub_pem(self):
+        return self.public_pem
+```
+
+```python
+class ex_DH():
+    def __init__(self, private_key, public_key):
+        self.private_key = private_key
+        self.public_key = public_key
+
+    def rsa_sign(self, message):
+        # 对消息进行签名
+        h = MD5.new(message.encode(encoding='utf-8'))
+        rsa = PKCS1_v1_5.new(self.private_key)
+        signature = rsa.sign(h)
+        return signature
+
+    def rsa_verify(self, message, signature):
+        # 对消息进行签名验证
+        h = MD5.new(message.encode(encoding='utf-8'))
+        verifier = PKCS1_v1_5.new(self.public_key)
+        if verifier.verify(h, signature):
+            print("OK")
+        else:
+            print("Invalid Signature")
+
+    def random_key(self):
+        return (random.randint(2, self.p - 2))  # 得到私钥
+
+    def fastExpMod(self, b, e, m):
+        result = 1
+        while e != 0:
+            if (e & 1) == 1:
+                # ei = 1, then mul
+                result = (result * b) % m
+            e >>= 1
+            # b, b^2, b^4, b^8, ... , b^(2^n)
+            b = (b * b) % m
+        return result
+
+    # A，B得到各自的计算数
+    def get_calculation(self, X):
+        return self.fastExpMod(self.proot, X, self.p)
+
+    # A，B得到交换计算数后的密钥
+    def get_key(self, X, Y):
+        return self.fastExpMod(Y, X, self.p)
+```
+
+（2）Alice取一个私密的整数a，不让任何人知道，发给Bob 计算结果：*A*=*ga* mod*p.* Eve 也看到了A的值。
+
+```python
+test = Gen_Key()
+dh = ex_DH(test.get_pri(), test.get_pub())
+# 得到A的私钥
+XA = dh.random_key()
+print('A随机生成的私钥为：%d' % XA)
+
+ # 得到A的计算数并进行消息签名和认证
+    YA = dh.get_calculation(XA)
+    print('A的计算数为：%d' % YA)
+    signature = dh.rsa_sign(str(YA))
+    dh.rsa_verify(str(YA), signature)
+```
+
+（3）类似,Bob 取一私密的整数b,发给Alice计算结果*B*=*gb* mod *p.*同样Eve也会看见传递的B是什么。
+
+```python
+# 得到B的私钥
+XB = dh.random_key()
+print('B随机生成的私钥为：%d' % XB)
+
+# 得到B的计算数并进行消息签名和认证
+    YB = dh.get_calculation(XB)
+    print('B的计算数为：%d' % YB)
+    signature = dh.rsa_sign(str(YB))
+    dh.rsa_verify(str(YB), signature)
+```
+
+（4）Alice 计算出*S*=*B a* mod *p*=(*gb*)*a* mod*p=gab*mod *p.*
+
+```python
+# 交换后A的密钥
+key_A = dh.get_key(XA, YB)
+print('A的生成密钥为：%d' % key_A)
+```
+
+（5） Bob 也能计算出*S*=*Ab* mod *p*=(*ga*)*b*mod*p=gab*mod *p.*
+
+```pytho
+# 交换后B的密钥
+key_B = dh.get_key(XB, YA)
+print('B的生成密钥为：%d' % key_B)
+```
+
+（6） Alice 和 Bob 现在就拥有了一个共用的密钥S.
+
+```
+key_A=key_B
+```
+
+（7）虽然Eve看见了*p*,*g*, *A* and *B*, 但是鉴于计算离散对数的困难性，她无法知道*a*和*b* 的具体值。所以Eve就无从知晓密钥S 是什么了。
+
+```
+在本次实验中DH协议为AES网络通信提供了一个共同的密钥，具体过程如下：
+```
+
+
+```python
+# 生产公私钥，并且发送公钥
+def click_PP_key(self):
+    test = _dh.Gen_Key()
+    self.public_key = test.get_pub()
+    self.private_key = test.get_pri()
+    self.send_Show_msg(str(test.public_key) + '\n')
+    self.send_Show_msg(str(test.private_key) + '\n')
+    self.client_send('[#1]', '[#1]' + str(self.public_key))
+# DH协议协商共享密钥
+def click_Change_key(self):
+    test = _dh.ex_DH(self.private_key, self.public_key)
+    self.XA = test.random_key()
+    YA = test.get_calculation(self.XA)
+    self.client_send('[#2]', '[#2]' + str(YA))
+```
+
+实现效果如下：
+![DH协议实现](assets/DH协议实现.png)
 
 # openssl通信部分
 
@@ -250,7 +763,6 @@ def remove_ClientText(self):
 http://slproweb.com/products/Win32OpenSSL.html
 
 直接按照普通的windows程序next，next的安装就行了。
-
 
 最后我们在环境变量中，将bin文件夹配置起来，就可以在命令行中调用OpenSSL了。如果暂时没成功的话就重启一下电脑让配置生效。
 
@@ -271,7 +783,6 @@ SSL通信的本质是啥？本质就是客户端拿着认证机关的证书去�
 为了避免这样的情况，所以才有SSL这个工具。
 
 - 客户端以后每次访问一个重要的网站时就要拿着发证机关CA（Cerficate Authority）的证书和对方连接的时候验证一下。咋验证的呢？客户端连接的时候服务端也有证书，这个证书也是CA发给他们的，里面的内容进行了加密，只要拿CA发给客户的那个证书对接一些就知道对面网站的那个证书是不是真的。这就是SSL的基本逻辑。
-
 - 同时通信的过程也是加密了的，这样就不太容易被窃听的人看明白（即中间人攻击）。
 
 所以SSL等于解决了两个问题，1 流量劫持 2 中间人攻击。
@@ -279,14 +790,11 @@ SSL通信的本质是啥？本质就是客户端拿着认证机关的证书去�
 **SSL协议通信的握手步骤**如下：
 
 - 第1步，SSL客户机连接至SSL服务器，并要求服务器验证它自身的身份；
-
 - 第2步，服务器通过发送它的数字证书证明其身份。这个交换还可以包括整个证书链，直到某个根证书颁发机构（CA）。通过检查有效日期并确认证书包含可信任CA的数字签名来验证证书的有效性。
-
 - 第3步，服务器发出一个请求，对客户端的证书进行验证，但是由于缺乏公钥体系结构，当今的大多数服务器不进行客户端认证。
-
 - 第4步，协商用于加密的消息加密算法和用于完整性检查的哈希函数，通常由客户端提供它支持的所有算法列表，然后由服务器选择最强大的加密算法。
-
 - 第5步，客户机和服务器通过以下步骤生成会话密钥：
+
   - 客户机生成一个随机数，并使用服务器的公钥（从服务器证书中获取）对它加密，以送到服务器上。
   - 服务器用更加随机的数据（客户机的密钥可用时则使用客户机密钥，否则以明文方式发送数据）响应。
 
